@@ -9,7 +9,7 @@
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
-
+npx shadcn@latest add
 # testing
 /coverage
 
