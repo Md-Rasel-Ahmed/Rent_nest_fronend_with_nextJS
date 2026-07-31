@@ -6,32 +6,32 @@ const cities = [
   {
     name: "Dhaka",
     properties: "2,450+ Properties",
-    image: "/images/cities/dhaka.jpg",
+    image: "/images/dhaka_city.jpg",
     href: "/properties?city=dhaka",
     className: "md:col-span-2 md:row-span-2",
   },
   {
     name: "Sylhet",
     properties: "420+ Properties",
-    image: "/images/cities/sylhet.jpg",
+    image: "/images/sylhet_house.jpg",
     href: "/properties?city=sylhet",
   },
   {
     name: "Khulna",
     properties: "310+ Properties",
-    image: "/images/cities/khulna.jpg",
+    image: "/images/dhaka_city.jpg",
     href: "/properties?city=khulna",
   },
   {
     name: "Chattogram",
     properties: "960+ Properties",
-    image: "/images/cities/chattogram.jpg",
+    image: "/images/dhaka_city.jpg",
     href: "/properties?city=chattogram",
   },
   {
     name: "Rajshahi",
     properties: "280+ Properties",
-    image: "/images/cities/rajshahi.jpg",
+    image: "/images/dhaka_city.jpg",
     href: "/properties?city=rajshahi",
   },
 ];
