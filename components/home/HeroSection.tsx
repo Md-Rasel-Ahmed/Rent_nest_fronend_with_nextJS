@@ -1,10 +1,11 @@
+"use client"
 import Image from "next/image";
 import Link from "next/link";
 import { Search, MapPin, ArrowRight } from "lucide-react";
-
+import StatsCounter from "@/components/shared/StatsCounter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
+import {motion} from "framer-motion"
 export default function HeroSection() {
   return (
     <section className="relative overflow-hidden">
@@ -55,9 +56,9 @@ export default function HeroSection() {
             {/* CTA */}
             <div className="mt-8 flex flex-wrap gap-4">
               <Button size="lg">
-                <Link href="/properties">
+                <Link className="flex" href="/properties">
                   Explore Properties
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                  <ArrowRight className="ml-2  h-4 w-4" />
                 </Link>
               </Button>
 
@@ -69,23 +70,53 @@ export default function HeroSection() {
             </div>
 
             {/* Stats */}
-            <div className="mt-14 grid grid-cols-3 gap-8 max-w-lg">
-              <div>
-                <h2 className="text-3xl font-bold">10K+</h2>
-                <p className="text-muted-foreground">Properties</p>
-              </div>
+           <div className="grid gap-8 md:grid-cols-4 mt-4">
 
-              <div>
-                <h2 className="text-3xl font-bold">8K+</h2>
-                <p className="text-muted-foreground">Tenants</p>
-              </div>
+  <motion.div
+  initial={{ opacity: 0, y: 50 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  transition={{ duration: 0.3 }}
+>
+  <StatsCounter
+    end={10}
+    suffix="k+"
+    title="Properties"
+  />
+</motion.div>
 
-              <div>
-                <h2 className="text-3xl font-bold">2K+</h2>
-                <p className="text-muted-foreground">Landlords</p>
-              </div>
-            </div>
-          </div>
+<motion.div
+  initial={{ opacity: 0, y: 50 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  transition={{ duration: 0.5 }}
+> <StatsCounter
+    end={8}
+    suffix="k+"
+    title="Happy Tenants"
+  />
+</motion.div>
+ 
+<motion.div
+  initial={{ opacity: 0, y: 50 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  transition={{ duration: 0.7 }}
+>
+ <StatsCounter
+    end={2}
+    suffix="k+"
+    title="Landlords"
+  />
+</motion.div>
+ 
+
+ 
+</div>
+
+
+
+     </div>
 
           {/* Right */}
           <div className="relative">

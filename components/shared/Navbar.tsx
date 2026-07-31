@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { usePathname } from "next/navigation";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -14,7 +15,7 @@ const navLinks = [
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-
+const pathname = usePathname();
   return (
     <header className="sticky top-0 z-50 border-b bg-white">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
@@ -26,14 +27,18 @@ export default function Navbar() {
         {/* Desktop Menu */}
         <nav className="hidden items-center gap-8 md:flex">
           {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              href={link.href}
-              className="text-sm font-medium transition hover:text-primary"
-            >
-              {link.name}
-            </Link>
-          ))}
+    <Link
+      key={link.href}
+      href={link.href}
+      className={`transition-colors ${
+        pathname === link.href
+          ? "text-primary font-semibold"
+          : "text-muted-foreground hover:text-primary"
+      }`}
+    >
+      {link.name}
+    </Link>
+  ))}
         </nav>
 
         {/* Desktop Buttons */}

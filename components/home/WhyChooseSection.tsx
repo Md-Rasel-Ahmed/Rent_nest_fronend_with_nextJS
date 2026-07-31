@@ -4,6 +4,7 @@ import {
   Clock3,
   Headphones,
 } from "lucide-react";
+import StatsCounter from "../shared/StatsCounter";
 
 const features = [
   {
@@ -92,36 +93,33 @@ export default function WhyChooseSection() {
                 connect directly, and make confident rental decisions.
               </p>
             </div>
+ <div className="grid grid-cols-2 gap-6">
 
-            <div className="grid grid-cols-2 gap-6">
-              <div>
-                <h4 className="text-4xl font-bold text-primary">10K+</h4>
-                <p className="mt-2 text-muted-foreground">
-                  Verified Properties
-                </p>
-              </div>
+ <StatsCounter
+    end={10}
+    suffix="k+"
+    title=" Verified Properties"
+  />
+ <StatsCounter
+    end={8}
+    suffix="k+"
+    title="Happy Tenants"
+  />
+ <StatsCounter
+    end={2}
+    suffix="k+"
+    title="Trusted Landlords"
+  />
+ <StatsCounter
+    end={99}
+    suffix="k+"
+    title="Customer Satisfaction"
+  />
+ 
 
-              <div>
-                <h4 className="text-4xl font-bold text-primary">8K+</h4>
-                <p className="mt-2 text-muted-foreground">
-                  Happy Tenants
-                </p>
-              </div>
-
-              <div>
-                <h4 className="text-4xl font-bold text-primary">2K+</h4>
-                <p className="mt-2 text-muted-foreground">
-                  Trusted Landlords
-                </p>
-              </div>
-
-              <div>
-                <h4 className="text-4xl font-bold text-primary">99%</h4>
-                <p className="mt-2 text-muted-foreground">
-                  Customer Satisfaction
-                </p>
-              </div>
-            </div>
+ 
+</div>
+          
           </div>
         </div>
       </div>
