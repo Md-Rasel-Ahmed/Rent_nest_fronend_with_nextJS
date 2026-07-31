@@ -1,13 +1,13 @@
-import Hero from '@/components/home/Hero'
-import SearchSection from '@/components/home/SearchSection'
+import CategoriesSection from '@/components/home/CategoriesSection'
+import HeroSection from '@/components/home/HeroSection'
 import React from 'react'
 
 export default function page() {
   return (
     <div>
         
-        <Hero></Hero>
-        <SearchSection></SearchSection>
+        <HeroSection></HeroSection>
+        <CategoriesSection></CategoriesSection>
          </div>
   )
 }
