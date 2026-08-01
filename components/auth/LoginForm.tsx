@@ -2,16 +2,46 @@
 
 import Link from "next/link";
 import { Eye, EyeOff, Lock, Mail } from "lucide-react";
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
+
+
+type LoginFormData = {
+  email: string;
+  password: string;
+};
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
+const {
+  register,
+  handleSubmit,
+  formState: { errors },
+} = useForm<LoginFormData>();
 
+const onSubmit = async(data: LoginFormData) => {
+  console.log(data);
+  const userPayload={
+    email:data.email,
+    password:data.password
+  }
+const res=await fetch(`https://assinemen4.vercel.app/api/auth/login`,{
+    method:"POST",
+    headers:{
+        "content-type":"application/json"
+    },
+    body:JSON.stringify(data)
+})
+const result=await res.json()
+
+  console.log(result);
+
+};
   return (
     <Card className="w-full max-w-md border-0 shadow-2xl">
       <CardContent className="p-8">
@@ -25,7 +55,7 @@ export default function LoginForm() {
           </p>
         </div>
 
-        <form className="mt-8 space-y-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-6">
           {/* Email */}
 
           <div className="space-y-2">
@@ -35,10 +65,18 @@ export default function LoginForm() {
               <Mail className="absolute left-4 top-3.5 h-5 w-5 text-muted-foreground" />
 
               <Input
+              {...register("email", {
+      required: "Email is required",
+    })}
                 type="email"
                 placeholder="Enter your email"
                 className="h-12 pl-11"
               />
+               {errors.email && (
+    <p className="text-sm text-red-500">
+      {errors.email.message}
+    </p>
+  )}
             </div>
           </div>
 
@@ -60,6 +98,13 @@ export default function LoginForm() {
               <Lock className="absolute left-4 top-3.5 h-5 w-5 text-muted-foreground" />
 
               <Input
+               {...register("password", {
+      required: "Password is required",
+      minLength: {
+        value: 6,
+        message: "Minimum 6 characters",
+      },
+    })}
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
                 className="h-12 pl-11 pr-11"
@@ -76,6 +121,11 @@ export default function LoginForm() {
                   <Eye className="h-5 w-5 text-muted-foreground" />
                 )}
               </button>
+               {errors.password && (
+    <p className="text-sm text-red-500">
+      {errors.password.message}
+    </p>
+  )}
             </div>
           </div>
 
@@ -89,7 +139,7 @@ export default function LoginForm() {
             </label>
           </div>
 
-          <Button className="h-12 w-full">
+          <Button type="submit" className="h-12 w-full">
             Sign In
           </Button>
 
