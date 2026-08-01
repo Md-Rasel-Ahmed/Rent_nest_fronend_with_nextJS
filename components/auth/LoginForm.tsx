@@ -101,8 +101,8 @@ const result=await res.json()
                {...register("password", {
       required: "Password is required",
       minLength: {
-        value: 6,
-        message: "Minimum 6 characters",
+        value: 4,
+        message: "Minimum 4 characters",
       },
     })}
                 type={showPassword ? "text" : "password"}
