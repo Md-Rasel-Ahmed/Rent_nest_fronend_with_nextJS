@@ -25,21 +25,19 @@ const {
 } = useForm<LoginFormData>();
 
 const onSubmit = async(data: LoginFormData) => {
-  console.log(data);
-  const userPayload={
-    email:data.email,
-    password:data.password
-  }
-const res=await fetch(`https://assinemen4.vercel.app/api/auth/login`,{
+  
+const res=await fetch(`http://localhost:5000/api/auth/login`,{
+  
     method:"POST",
     headers:{
-        "content-type":"application/json"
+        "Content-Type":"application/json"
     },
+    credentials:"include",
     body:JSON.stringify(data)
 })
 const result=await res.json()
 
-  console.log(result);
+return result
 
 };
   return (

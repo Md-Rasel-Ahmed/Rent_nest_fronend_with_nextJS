@@ -2,12 +2,12 @@ export interface Property {
   id: string;
   title: string;
   image: string;
-  city: string;
+  address: string;
   location: string;
   type: string;
   bedrooms: number;
   bathrooms: number;
   area: number;
-  price: number;
+  rent: number;
   verified: boolean;
 }

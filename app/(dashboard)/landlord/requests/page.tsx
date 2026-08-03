@@ -1,40 +1,44 @@
-import { Eye, Trash2 } from "lucide-react";
+import {
+  Eye,
+  Pencil,
+  Search,
+} from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-const rentals = [
+const requests = [
   {
     id: 1,
-    property: "Luxury Apartment",
     tenant: "John Doe",
-    landlord: "Sarah Khan",
+    property: "Luxury Apartment",
+    phone: "+8801712345678",
     rent: "$500",
-    payment: "Paid",
-    status: "Active",
-  },
-  {
-    id: 2,
-    property: "Modern Villa",
-    tenant: "Alex Smith",
-    landlord: "David",
-    rent: "$850",
-    payment: "Pending",
+    moveIn: "20 Aug 2026",
     status: "Pending",
   },
   {
+    id: 2,
+    tenant: "Sarah Khan",
+    property: "Modern Villa",
+    phone: "+8801812345678",
+    rent: "$850",
+    moveIn: "25 Aug 2026",
+    status: "Approved",
+  },
+  {
     id: 3,
+    tenant: "Alex Smith",
     property: "Studio Flat",
-    tenant: "Michael",
-    landlord: "Ahmed",
+    phone: "+8801912345678",
     rent: "$300",
-    payment: "Paid",
-    status: "Completed",
+    moveIn: "01 Sep 2026",
+    status: "Rejected",
   },
 ];
 
-export default function RentalsPage() {
+export default function RentalRequestsPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -42,81 +46,77 @@ export default function RentalsPage() {
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
           <h1 className="text-3xl font-bold">
-            Rentals
+            Rental Requests
           </h1>
 
           <p className="text-muted-foreground">
-            Manage all rental records across the platform.
+            Review and manage tenant rental requests.
           </p>
         </div>
 
-        <Input
-          placeholder="Search rental..."
-          className="w-full md:max-w-sm"
-        />
+        <div className="relative w-full md:max-w-sm">
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+
+          <Input
+            placeholder="Search request..."
+            className="pl-10"
+          />
+        </div>
       </div>
 
       {/* Table */}
 
-      <div className="overflow-hidden rounded-xl border">
+      <div className="overflow-x-auto rounded-xl border">
         <table className="w-full">
           <thead className="bg-muted">
             <tr>
-              <th className="px-6 py-4 text-left">Property</th>
               <th className="px-6 py-4 text-left">Tenant</th>
-              <th className="px-6 py-4 text-left">Landlord</th>
-              <th className="px-6 py-4 text-left">Monthly Rent</th>
-              <th className="px-6 py-4 text-left">Payment</th>
+              <th className="px-6 py-4 text-left">Property</th>
+              <th className="px-6 py-4 text-left">Phone</th>
+              <th className="px-6 py-4 text-left">Rent</th>
+              <th className="px-6 py-4 text-left">Move In</th>
               <th className="px-6 py-4 text-left">Status</th>
               <th className="px-6 py-4 text-center">Actions</th>
             </tr>
           </thead>
 
           <tbody>
-            {rentals.map((rental) => (
+            {requests.map((request) => (
               <tr
-                key={rental.id}
+                key={request.id}
                 className="border-t"
               >
                 <td className="px-6 py-5 font-medium">
-                  {rental.property}
+                  {request.tenant}
                 </td>
 
                 <td className="px-6 py-5">
-                  {rental.tenant}
+                  {request.property}
                 </td>
 
                 <td className="px-6 py-5">
-                  {rental.landlord}
+                  {request.phone}
                 </td>
 
                 <td className="px-6 py-5">
-                  {rental.rent}
+                  {request.rent}
                 </td>
 
                 <td className="px-6 py-5">
-                  <Badge
-                    variant={
-                      rental.payment === "Paid"
-                        ? "default"
-                        : "secondary"
-                    }
-                  >
-                    {rental.payment}
-                  </Badge>
+                  {request.moveIn}
                 </td>
 
                 <td className="px-6 py-5">
                   <Badge
                     variant={
-                      rental.status === "Active"
+                      request.status === "Approved"
                         ? "default"
-                        : rental.status === "Pending"
+                        : request.status === "Pending"
                         ? "secondary"
-                        : "outline"
+                        : "destructive"
                     }
                   >
-                    {rental.status}
+                    {request.status}
                   </Badge>
                 </td>
 
@@ -131,9 +131,9 @@ export default function RentalsPage() {
 
                     <Button
                       size="icon"
-                      variant="destructive"
+                      variant="outline"
                     >
-                      <Trash2 className="h-4 w-4" />
+                      <Pencil className="h-4 w-4" />
                     </Button>
                   </div>
                 </td>

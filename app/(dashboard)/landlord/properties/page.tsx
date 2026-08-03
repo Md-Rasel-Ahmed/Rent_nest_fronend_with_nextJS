@@ -1,40 +1,40 @@
-import { Eye, Trash2 } from "lucide-react";
+import {
+  Eye,
+  Pencil,
+  Plus,
+  Search,
+  Trash2,
+} from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-const rentals = [
+const properties = [
   {
     id: 1,
-    property: "Luxury Apartment",
-    tenant: "John Doe",
-    landlord: "Sarah Khan",
-    rent: "$500",
-    payment: "Paid",
-    status: "Active",
+    title: "Luxury Apartment",
+    location: "Dhaka",
+    rent: "$550 / month",
+    status: "Available",
   },
   {
     id: 2,
-    property: "Modern Villa",
-    tenant: "Alex Smith",
-    landlord: "David",
-    rent: "$850",
-    payment: "Pending",
-    status: "Pending",
+    title: "Modern Villa",
+    location: "Khulna",
+    rent: "$900 / month",
+    status: "Rented",
   },
   {
     id: 3,
-    property: "Studio Flat",
-    tenant: "Michael",
-    landlord: "Ahmed",
-    rent: "$300",
-    payment: "Paid",
-    status: "Completed",
+    title: "Studio Flat",
+    location: "Sylhet",
+    rent: "$300 / month",
+    status: "Pending",
   },
 ];
 
-export default function RentalsPage() {
+export default function MyPropertiesPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -42,81 +42,88 @@ export default function RentalsPage() {
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
           <h1 className="text-3xl font-bold">
-            Rentals
+            My Properties
           </h1>
 
           <p className="text-muted-foreground">
-            Manage all rental records across the platform.
+            Manage all your rental properties.
           </p>
         </div>
 
+        <Button>
+          <Plus className="mr-2 h-4 w-4" />
+          Add Property
+        </Button>
+      </div>
+
+      {/* Search */}
+
+      <div className="relative max-w-md">
+        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+
         <Input
-          placeholder="Search rental..."
-          className="w-full md:max-w-sm"
+          placeholder="Search property..."
+          className="pl-10"
         />
       </div>
 
       {/* Table */}
 
-      <div className="overflow-hidden rounded-xl border">
+      <div className="overflow-x-auto rounded-xl border">
         <table className="w-full">
           <thead className="bg-muted">
             <tr>
-              <th className="px-6 py-4 text-left">Property</th>
-              <th className="px-6 py-4 text-left">Tenant</th>
-              <th className="px-6 py-4 text-left">Landlord</th>
-              <th className="px-6 py-4 text-left">Monthly Rent</th>
-              <th className="px-6 py-4 text-left">Payment</th>
-              <th className="px-6 py-4 text-left">Status</th>
-              <th className="px-6 py-4 text-center">Actions</th>
+              <th className="px-6 py-4 text-left">
+                Property
+              </th>
+
+              <th className="px-6 py-4 text-left">
+                Location
+              </th>
+
+              <th className="px-6 py-4 text-left">
+                Rent
+              </th>
+
+              <th className="px-6 py-4 text-left">
+                Status
+              </th>
+
+              <th className="px-6 py-4 text-center">
+                Actions
+              </th>
             </tr>
           </thead>
 
           <tbody>
-            {rentals.map((rental) => (
+            {properties.map((property) => (
               <tr
-                key={rental.id}
+                key={property.id}
                 className="border-t"
               >
                 <td className="px-6 py-5 font-medium">
-                  {rental.property}
+                  {property.title}
                 </td>
 
                 <td className="px-6 py-5">
-                  {rental.tenant}
+                  {property.location}
                 </td>
 
                 <td className="px-6 py-5">
-                  {rental.landlord}
-                </td>
-
-                <td className="px-6 py-5">
-                  {rental.rent}
+                  {property.rent}
                 </td>
 
                 <td className="px-6 py-5">
                   <Badge
                     variant={
-                      rental.payment === "Paid"
+                      property.status === "Available"
                         ? "default"
-                        : "secondary"
-                    }
-                  >
-                    {rental.payment}
-                  </Badge>
-                </td>
-
-                <td className="px-6 py-5">
-                  <Badge
-                    variant={
-                      rental.status === "Active"
-                        ? "default"
-                        : rental.status === "Pending"
+                        : property.status === "Rented"
                         ? "secondary"
                         : "outline"
                     }
                   >
-                    {rental.status}
+                    {property.status}
                   </Badge>
                 </td>
 
@@ -127,6 +134,13 @@ export default function RentalsPage() {
                       variant="outline"
                     >
                       <Eye className="h-4 w-4" />
+                    </Button>
+
+                    <Button
+                      size="icon"
+                      variant="outline"
+                    >
+                      <Pencil className="h-4 w-4" />
                     </Button>
 
                     <Button

@@ -35,12 +35,12 @@ const menus = [
   // },
   {
     title: "Payment History",
-    href: "/tenant/dashboard/payments",
+    href: "/tenant/payments",
     icon: CreditCard,
   },
   {
     title: "Rental History",
-    href: "/tenant/dashboard/history",
+    href: "/tenant/history",
     icon: History,
   },
   // {
@@ -50,12 +50,12 @@ const menus = [
   // },
   {
     title: "Profile",
-    href: "/tenant/dashboard/profile",
+    href: "/tenant/profile",
     icon: User,
   },
   {
     title: "Settings",
-    href: "/tenant/dashboard/settings",
+    href: "/tenant/settings",
     icon: Settings,
   },
 ];

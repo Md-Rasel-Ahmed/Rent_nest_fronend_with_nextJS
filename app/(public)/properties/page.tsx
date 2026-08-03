@@ -1,14 +1,16 @@
 import PropertyFilter from "@/components/properties/PropertyFilter";
 import PropertyGrid from "@/components/properties/PropertyGrid";
 
-export default function PropertiesPage() {
-  return (
+export default async function  PropertiesPage() {
+
+    return (
     <main className="container mx-auto py-20">
       {/* Heading */}
 
       <div className="mb-10">
         <h1 className="text-5xl font-bold">
           Explore Properties
+        
         </h1>
 
         <p className="mt-4 text-muted-foreground">

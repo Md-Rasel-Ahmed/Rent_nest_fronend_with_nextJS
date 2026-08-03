@@ -26,22 +26,22 @@ const menus = [
   },
   {
     title: "My Properties",
-    href: "/landlord/dashboard/properties",
+    href: "/landlord/properties",
     icon: Building2,
   },
   {
     title: "Add Property",
-    href: "/dashboard/landlord/add-property",
+    href: "/dashboard/add-property",
     icon: PlusSquare,
   },
   {
     title: "Requests",
-    href: "/landlord/dashboard/requests",
+    href: "/landlord/requests",
     icon: CalendarDays,
   },
   {
     title: "Earnings",
-    href: "/landlord/dashboard/earnings",
+    href: "/landlord/earnings",
     icon: Wallet,
   },
 //   {
@@ -56,12 +56,12 @@ const menus = [
 //   },
   {
     title: "Profile",
-    href: "/landlord/dashboard/profile",
+    href: "/landlord/profile",
     icon: User,
   },
   {
     title: "Settings",
-    href: "/landlord/dashboard/settings",
+    href: "/landlord/settings",
     icon: Settings,
   },
 ];

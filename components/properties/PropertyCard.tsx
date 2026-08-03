@@ -57,7 +57,7 @@ export default function PropertyCard({ property }: Props) {
             <MapPin className="h-4 w-4" />
 
             <span>
-              {property.location}, {property.city}
+              {property.address}
             </span>
           </div>
         </div>
@@ -82,7 +82,7 @@ export default function PropertyCard({ property }: Props) {
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-2xl font-bold text-primary">
-              ${property.price}
+              ${property.rent}
             </h3>
 
             <p className="text-sm text-muted-foreground">

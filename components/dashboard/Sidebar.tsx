@@ -3,7 +3,7 @@ import LandlordSidebar from "./LandlordSidebar";
 import TenantSidebar from "./TenantSidebar";
 
 export default function Sidebar() {
-  const role = "admin"; 
+  const role = "tenant"; 
 
   switch (role) {
     case "admin":
