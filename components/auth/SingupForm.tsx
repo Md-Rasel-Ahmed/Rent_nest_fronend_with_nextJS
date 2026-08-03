@@ -17,23 +17,52 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 
 import { Label } from "@/components/ui/label";
+import { singupAction } from "@/app/(public)/login/_actions/auth";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 type SingupFormData = {
     name:string,
     phone?:string,
-  email: string;
-  password: string;
-  role:string
+    email: string;
+   password: string;
+   role:string
 
 };
 export default function SignupForm() {
   const [showPassword, setShowPassword] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
 const {
   register,
   handleSubmit,
   formState: { errors },
 } = useForm<SingupFormData>();
-const onSubmit = (data: SingupFormData) => {
-  console.log(data);
+const onSubmit = async (data: SingupFormData) => {
+   setIsLoading(true);
+   const singupPayload={
+    name:data.name,
+    password:data.password,
+    email:data.email,
+    phone:data.phone||"",
+    role:data?.role.toUpperCase()
+   }
+   console.log(singupPayload);
+      try {
+        const res = await singupAction(singupPayload);
+  
+        if (res.success) {
+          toast.success(res.message || "Singup successfully!");
+          console.log(res);
+          router.push("/login");
+          router.refresh();
+        } else {
+          toast.error(res.message || "Failed to singup!");
+        }
+      } catch (error) {
+        toast.error("An unexpected error occurred.");
+      } finally {
+        setIsLoading(false);
+      }
 };
   return (
     <Card className="w-full max-w-lg border-0 shadow-2xl">

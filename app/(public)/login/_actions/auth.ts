@@ -1,0 +1,87 @@
+// app/actions/auth.ts
+"use server";
+
+import { tokenVerify } from "@/utiles/tokenVerify";
+import { cookies } from "next/headers";
+
+export async function loginAction(data: { email: string; password: string }) {
+  try {
+    const res = await fetch(`http://localhost:5000/api/auth/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    const result = await res.json();
+
+    if (!res.ok) {
+      return {
+        success: false,
+        message: result.message || "Login failed!",
+      };
+    }
+   const role=await tokenVerify()
+   const convertRole=role?.toLowerCase()
+    const { accessToken, refreshToken } = result.data || result; 
+
+    const cookieStore = await cookies();
+
+    if (accessToken) {
+      cookieStore.set("accessToken", accessToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        path: "/",
+        maxAge:3 * 24 * 60 * 60, //3 days
+      });
+    }
+
+    if (refreshToken) {
+      cookieStore.set("refreshToken", refreshToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        path: "/",
+        maxAge: 7 * 24 * 60 * 60, // 7 days
+      });
+    }
+    
+    return { success: true, message: "Login successful!",role:convertRole };
+
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error.message || "Something went wrong",
+    };
+  }
+}
+export async function singupAction(data: { email: string; password: string,name:string,phone:string,role:string}) {
+ console.log(data);
+  try {
+    const res = await fetch(`http://localhost:5000/api/auth/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    const result = await res.json();
+
+    if (!res.ok) {
+      return {
+        success: false,
+        message: result.message || "Singup failed!",
+      };
+    }
+    return { success: true, message: "Singup successful!"};
+
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error.message || "Something went wrong",
+    };
+  }
+}
