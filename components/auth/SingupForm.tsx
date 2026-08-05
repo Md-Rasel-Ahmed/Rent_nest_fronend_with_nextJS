@@ -9,6 +9,7 @@ import {
   Lock,
   User,
   Phone,
+  Loader2,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -46,15 +47,13 @@ const onSubmit = async (data: SingupFormData) => {
     phone:data.phone||"",
     role:data?.role.toUpperCase()
    }
-   console.log(singupPayload);
       try {
         const res = await singupAction(singupPayload);
   
         if (res.success) {
           toast.success(res.message || "Singup successfully!");
-          console.log(res);
-          router.push("/login");
-          router.refresh();
+          router.push("/");
+          // router.refresh();
         } else {
           toast.error(res.message || "Failed to singup!");
         }
@@ -215,8 +214,14 @@ const onSubmit = async (data: SingupFormData) => {
             </span>
           </label>
 
-          <Button type="submit" className="h-12 w-full">
-            Create Account
+           <Button type="submit" disabled={isLoading} className="h-12 w-full">
+            {isLoading ? (
+              <span className="flex items-center gap-2">
+                <Loader2 className="h-4 w-4 animate-spin" /> Processing...
+              </span>
+            ) : (
+              "Singup"
+            )}
           </Button>
 
           <p className="text-center text-sm text-muted-foreground">

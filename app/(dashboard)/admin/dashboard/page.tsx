@@ -6,11 +6,11 @@ import {
 } from "lucide-react";
 
 import { Card, CardContent } from "@/components/ui/card";
-
+import { getUsers } from "@/utiles/getUser";
 const stats = [
   {
     title: "Total Users",
-    value: "1,245",
+    value: 5,
     icon: Users,
   },
   {
@@ -62,7 +62,9 @@ const latestProperties = [
   "Studio Flat",
 ];
 
-export default function AdminDashboardPage() {
+export default async function AdminDashboardPage() {
+//  const users=await getUsers()
+  // console.log(users);
   return (
     <div className="space-y-8">
       {/* Heading */}

@@ -1,8 +1,10 @@
 // app/actions/auth.ts
 "use server";
 
-import { tokenVerify } from "@/utiles/tokenVerify";
 import { cookies } from "next/headers";
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import { jwtDecode } from 'jwt-decode';
+import { tokenVerify } from "@/utiles/tokenVerify";
 
 export async function loginAction(data: { email: string; password: string }) {
   try {
@@ -22,12 +24,11 @@ export async function loginAction(data: { email: string; password: string }) {
         message: result.message || "Login failed!",
       };
     }
-   const role=await tokenVerify()
-   const convertRole=role?.toLowerCase()
+
     const { accessToken, refreshToken } = result.data || result; 
-
+    
     const cookieStore = await cookies();
-
+    
     if (accessToken) {
       cookieStore.set("accessToken", accessToken, {
         httpOnly: true,
@@ -37,7 +38,7 @@ export async function loginAction(data: { email: string; password: string }) {
         maxAge:3 * 24 * 60 * 60, //3 days
       });
     }
-
+    
     if (refreshToken) {
       cookieStore.set("refreshToken", refreshToken, {
         httpOnly: true,
@@ -47,8 +48,9 @@ export async function loginAction(data: { email: string; password: string }) {
         maxAge: 7 * 24 * 60 * 60, // 7 days
       });
     }
-    
-    return { success: true, message: "Login successful!",role:convertRole };
+    const decodedToken=await tokenVerify()
+    // const decoded=await tokenVerify(accessToken)
+    return { success: true, message: "Login successful!",role:decodedToken};
 
   } catch (error: any) {
     return {
@@ -58,7 +60,6 @@ export async function loginAction(data: { email: string; password: string }) {
   }
 }
 export async function singupAction(data: { email: string; password: string,name:string,phone:string,role:string}) {
- console.log(data);
   try {
     const res = await fetch(`http://localhost:5000/api/auth/register`, {
       method: "POST",

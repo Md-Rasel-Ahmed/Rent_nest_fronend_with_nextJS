@@ -1,12 +1,8 @@
 "use server"
 
-import { jwtDecode } from "jwt-decode";
 import { cookies } from "next/headers";
-type DecodedToken = {
-  email: string;
-  role: "admin" | "landlord" | "tenant";
-  exp: number;
-};
+import  jwt, { JwtPayload }  from 'jsonwebtoken';
+
 export const tokenVerify=async()=>{
  const cookieStore = await cookies();
   const token = cookieStore.get("accessToken")?.value;
@@ -15,7 +11,7 @@ export const tokenVerify=async()=>{
   
     if (token) {
       try {
-        const decoded: DecodedToken = jwtDecode(token);
+        const decoded=jwt.decode(token) as JwtPayload
         role = decoded.role;
       } catch (error) {
         console.error("Token decoding failed:", error);

@@ -2,8 +2,9 @@ import { Eye, Pencil, Plus, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { getProperties } from "@/utiles/getProperties";
 
-const properties = [
+const propertiess = [
   {
     id: 1,
     title: "Luxury Apartment",
@@ -29,7 +30,8 @@ const properties = [
     status: "Published",
   },
 ];
-export default function AdminPropertiesPage() {
+export default async function AdminPropertiesPage() {
+ const properties:[{id:string,title:string,landlord:string,city:string,price:string,status:string}]=await getProperties()
   return (
     <div className="space-y-8">
       {/* Header */}
@@ -91,7 +93,7 @@ export default function AdminPropertiesPage() {
           </thead>
 
           <tbody>
-            {properties.map((property) => (
+            {properties?.map((property) => (
               <tr
                 key={property.id}
                 className="border-t"

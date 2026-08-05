@@ -4,9 +4,12 @@ import HowItWorksSection from '@/components/home/HowItWorksSection'
 import PopularCitiesSection from '@/components/home/PopularCitiesSection'
 import TestimonialsSection from '@/components/home/TestimonialsSection'
 import WhyChooseSection from '@/components/home/WhyChooseSection'
+import { getMe } from '@/utiles/getMe'
 import React from 'react'
 
-export default function page() {
+export default async function page() {
+// const user=await getMe()
+// console.log(user)
   return (
     <div>
         

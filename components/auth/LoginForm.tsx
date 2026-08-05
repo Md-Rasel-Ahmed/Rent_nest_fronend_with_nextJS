@@ -21,8 +21,7 @@ export default function  LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-//  const role= tokenVerify()
-//  console.log(role ,"role form login");
+
   const {
     register,
     handleSubmit,
@@ -34,12 +33,19 @@ export default function  LoginForm() {
 
     try {
       const res = await loginAction(data);
-
+      
       if (res.success) {
         toast.success(res.message || "Logged in successfully!");
-        console.log(res);
-        router.push(res.role as string +"/dashboard");
-        router.refresh();
+        console.log(res.role)
+        if(res.role==="ADMIN"){
+          router.push('/admin/dashboard')
+        }else if(res.role==="TENANT"){
+          router.push('/tenant/dashboard')
+        }else{
+          router.push('/landlord/dashboard')
+        }
+        // router.push('/');
+        // router.refresh();
       } else {
         toast.error(res.message || "Failed to login!");
       }
@@ -135,7 +141,7 @@ export default function  LoginForm() {
           <Button type="submit" disabled={isLoading} className="h-12 w-full">
             {isLoading ? (
               <span className="flex items-center gap-2">
-                <Loader2 className="h-4 w-4 animate-spin" /> Logging in...
+                <Loader2 className="h-4 w-4 animate-spin" /> Processing...
               </span>
             ) : (
               "Sign In"
