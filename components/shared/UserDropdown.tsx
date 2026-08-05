@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import {
-  LayoutDashboard,
   User,
-  Settings,
   LogOut,
+  LayoutDashboard,
+  Settings,
 } from "lucide-react";
 
 import {
@@ -18,103 +18,52 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { logout } from "@/service/logout";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
-interface UserProps {
-  user: {
-    name: string;
-    email: string;
-    role: "ADMIN" | "LANDLORD" | "TENANT";
-    image?: string;
-  };
+export default function UserDropdown({ role }: { role: string }) {
+   const router = useRouter();
+const handleLogout=async()=>{
+   await logout()
+   toast.success("Logut success")
+    router.push("/login");
+   
 }
-
-export default function UserDropdown({ user }: UserProps) {
-  const getDashboardLink = () => {
-    switch (user.role) {
-      case "ADMIN":
-        return "/admin/dashboard";
-
-      case "LANDLORD":
-        return "/landlord/dashboard";
-
-      default:
-        return "/tenant/dashboard";
-    }
-  };
-
-  const handleLogout = () => {
-    // পরে API call করবে
-    console.log("Logout");
-  };
-
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="outline-none">
-        <Avatar className="h-10 w-10 cursor-pointer ring-2 ring-primary/20 hover:ring-primary transition">
-          <AvatarImage src={user.image} />
-
-          <AvatarFallback>
-            {user.name.charAt(0).toUpperCase()}
-          </AvatarFallback>
-        </Avatar>
+      <DropdownMenuTrigger >
+        <button className="outline-none rounded-full">
+          <Avatar className="h-10 w-10 cursor-pointer">
+            <AvatarImage src="https://i.pravatar.cc/150?img=3" />
+            <AvatarFallback>U</AvatarFallback>
+          </Avatar>
+        </button>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent
         align="end"
-        className="w-64"
+        className="w-56"
       >
-        <DropdownMenuLabel className="pb-3">
-          <div className="flex items-center gap-3">
-            <Avatar>
-              <AvatarImage src={user.image} />
-              <AvatarFallback>
-                {user.name.charAt(0)}
-              </AvatarFallback>
-            </Avatar>
-
-            <div>
-              <p className="font-semibold">
-                {user.name}
-              </p>
-
-              <p className="text-xs text-muted-foreground">
-                {user.email}
-              </p>
-            </div>
-          </div>
-        </DropdownMenuLabel>
-
-        <DropdownMenuSeparator />
-
         <DropdownMenuItem >
-          <Link
-            href={getDashboardLink()}
-            className="cursor-pointer"
-          >
+          <Link className="flex gap-1 justify-items-center" href={`/${role}/dashboard`}>
             <LayoutDashboard className="mr-2 h-4 w-4" />
             Dashboard
           </Link>
         </DropdownMenuItem>
 
         <DropdownMenuItem >
-          <Link
-            href="/profile"
-            className="cursor-pointer"
-          >
+          <Link className="flex gap-1 justify-items-center" href="/profile">
             <User className="mr-2 h-4 w-4" />
-            My Profile
+            Profile
           </Link>
         </DropdownMenuItem>
 
         <DropdownMenuItem >
-          <Link
-            href="/settings"
-            className="cursor-pointer"
-          >
+          <Link className="flex gap-1 justify-items-center" href="/settings">
             <Settings className="mr-2 h-4 w-4" />
             Settings
           </Link>
@@ -122,10 +71,7 @@ export default function UserDropdown({ user }: UserProps) {
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem
-          onClick={handleLogout}
-          className="cursor-pointer text-red-500 focus:text-red-500"
-        >
+        <DropdownMenuItem onClick={handleLogout} className="text-red-500 cursor-pointer">
           <LogOut className="mr-2 h-4 w-4" />
           Logout
         </DropdownMenuItem>

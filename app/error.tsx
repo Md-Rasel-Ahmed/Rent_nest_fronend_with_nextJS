@@ -4,10 +4,10 @@ import { useEffect } from 'react'
  
 export default function Error({
   error,
-  unstable_retry,
+  retry,
 }: {
   error: Error & { digest?: string }
-  unstable_retry: () => void
+  retry: () => void
 }) {
   useEffect(() => {
     // Log the error to an error reporting service
@@ -20,7 +20,7 @@ export default function Error({
       <button
         onClick={
           // Attempt to recover by re-fetching and re-rendering the segment
-          () => unstable_retry()
+          () => retry()
         }
       >
         Try again
