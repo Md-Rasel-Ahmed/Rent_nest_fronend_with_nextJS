@@ -10,15 +10,20 @@ export async function fetcher<T>(
 ): Promise<T> {
   const { token, headers, ...rest } = options;
 
+  const reqHeaders: Record<string, string> = {
+    "Content-Type": "application/json",
+    ...(headers as Record<string, string>),
+  };
+
+  if (token) {
+    reqHeaders["Authorization"] = `Bearer ${token}`;
+    reqHeaders["Cookie"] = `accessToken=${token}`;
+  }
+
   const response = await fetch(`${BASE_URL}${endpoint}`, {
     ...rest,
-    headers: {
-      "Content-Type": "application/json",
-      ...(token && {
-        Cookie: `accessToken=${token}`,
-      }),
-      ...headers,
-    },
+    headers: reqHeaders,
+    credentials: "include",
     cache: "no-store",
   });
 

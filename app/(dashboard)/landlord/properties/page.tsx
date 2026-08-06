@@ -9,32 +9,28 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { getLandlordProperties } from "@/service/landlord.service";
+import { cookies } from "next/headers";
+import AddPropertyModal from "@/components/dashboard/AddPropertyModal";
 
-const properties = [
-  {
-    id: 1,
-    title: "Luxury Apartment",
-    location: "Dhaka",
-    rent: "$550 / month",
-    status: "Available",
-  },
-  {
-    id: 2,
-    title: "Modern Villa",
-    location: "Khulna",
-    rent: "$900 / month",
-    status: "Rented",
-  },
-  {
-    id: 3,
-    title: "Studio Flat",
-    location: "Sylhet",
-    rent: "$300 / month",
-    status: "Pending",
-  },
-];
+type LandlordProperty = {
+  id: string;
+  title: string;
+  location: string;
+  rent: string;
+  isAvailable:boolean,
+  address:string,
+  city:string
+};
 
-export default function MyPropertiesPage() {
+type LandlordPropertiesResponse = {
+  data?: LandlordProperty[];
+};
+
+export default async function MyPropertiesPage() {
+  const cookiStore = await cookies();
+  const token = cookiStore.get("accessToken")?.value;
+  const properties = (await getLandlordProperties(token ?? "")) as LandlordPropertiesResponse;
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -50,10 +46,7 @@ export default function MyPropertiesPage() {
           </p>
         </div>
 
-        <Button>
-          <Plus className="mr-2 h-4 w-4" />
-          Add Property
-        </Button>
+        <AddPropertyModal token={token??""}/>
       </div>
 
       {/* Search */}
@@ -96,7 +89,7 @@ export default function MyPropertiesPage() {
           </thead>
 
           <tbody>
-            {properties.map((property) => (
+            {properties.data?.map((property) => (
               <tr
                 key={property.id}
                 className="border-t"
@@ -106,7 +99,7 @@ export default function MyPropertiesPage() {
                 </td>
 
                 <td className="px-6 py-5">
-                  {property.location}
+                  {property.address + property.city}
                 </td>
 
                 <td className="px-6 py-5">
@@ -116,14 +109,10 @@ export default function MyPropertiesPage() {
                 <td className="px-6 py-5">
                   <Badge
                     variant={
-                      property.status === "Available"
-                        ? "default"
-                        : property.status === "Rented"
-                        ? "secondary"
-                        : "outline"
+                      property.isAvailable?"secondary":"default"
                     }
                   >
-                    {property.status}
+                    {property.isAvailable?"Available":"Not Available"}
                   </Badge>
                 </td>
 

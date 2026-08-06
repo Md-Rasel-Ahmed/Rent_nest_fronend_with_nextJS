@@ -11,8 +11,12 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { getMe } from "@/utiles/getMe";
+import EditProfileModal from "@/components/dashboard/EditProfileModal";
 
-export default function TenantProfilePage() {
+export default async function TenantProfilePage() {
+  const userProfile=await getMe()
+  console.log(userProfile);
   return (
     <div className="space-y-8">
       {/* Heading */}
@@ -39,16 +43,24 @@ export default function TenantProfilePage() {
             </Avatar>
 
             <h2 className="mt-5 text-2xl font-bold">
-              Md Rasel Ahmed
+             {userProfile.data?.name||"Jhon"}
             </h2>
 
             <p className="text-muted-foreground">
-              Tenant
+              {userProfile.data?.role}
             </p>
 
-            <Button className="mt-6 w-full">
-              Edit Profile
-            </Button>
+            {userProfile.data && (
+              <EditProfileModal
+                user={{
+                  ...userProfile.data,
+                  // ensure name is string | undefined (not null)
+                  name: userProfile.data.name ?? undefined,
+                  // convert null phone to undefined to match UserData type
+                  phone: userProfile.data.phone ?? undefined,
+                }}
+              />
+            )}
           </CardContent>
         </Card>
 
@@ -65,7 +77,7 @@ export default function TenantProfilePage() {
                 </p>
 
                 <h3 className="font-semibold">
-                  Md Rasel Ahmed
+                   {userProfile.data?.name||"Jhon doe"}
                 </h3>
               </div>
             </div>
@@ -79,7 +91,7 @@ export default function TenantProfilePage() {
                 </p>
 
                 <h3 className="font-semibold">
-                  rasel@example.com
+                   {userProfile.data?.email}
                 </h3>
               </div>
             </div>
@@ -93,7 +105,7 @@ export default function TenantProfilePage() {
                 </p>
 
                 <h3 className="font-semibold">
-                  +8801712345678
+                   {userProfile.data?.phone||"017000000000"}
                 </h3>
               </div>
             </div>
@@ -121,7 +133,7 @@ export default function TenantProfilePage() {
                 </p>
 
                 <h3 className="font-semibold">
-                  10 Jan 2026
+                   {userProfile.data?.createdAt}
                 </h3>
               </div>
             </div>
