@@ -14,18 +14,19 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { fetcher } from "@/lib/fether";
+import { toast } from "sonner";
 
-interface DeletePropertyButtonProps {
+interface IdeleteUser {
   id: string;
   token: string;
   propertyTitle: string;
 }
 
-export default function DeletePropertyButton({
+export default function DeleteUser({
   id,
   token,
   propertyTitle,
-}: DeletePropertyButtonProps) {
+}: IdeleteUser) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -33,15 +34,17 @@ export default function DeletePropertyButton({
   const handleDelete = async () => {
     setLoading(true);
     try {
-      await fetcher(`/landlord/properties/${id}`, {
+      await fetcher(`/admin/users/${id}`, {
         method: "DELETE",
         token: token,
       });
 
       setOpen(false);
+      toast.success("User delete successfull")
       router.refresh();
     } catch (error) {
       console.error("Delete failed:", error);
+      toast.success("Delete failed!")
     } finally {
       setLoading(false);
     }
@@ -77,7 +80,7 @@ export default function DeletePropertyButton({
             Cancel
           </Button>
 
-         <Button
+          <Button
             type="button"
             variant="destructive"
             disabled={loading}

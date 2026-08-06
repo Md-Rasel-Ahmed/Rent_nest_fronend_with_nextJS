@@ -4,39 +4,29 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
+import { cookies } from "next/headers";
+import { getAllUsers } from "@/service/admin.service";
+import UserStatusSwitch from "@/components/UserStatusSwitch";
+import DeleteUser from "@/components/DeleteUser";
 
-const users = [
-  {
-    id: 1,
-    name: "John Doe",
-    email: "john@gmail.com",
-    role: "Tenant",
-    status: true,
-  },
-  {
-    id: 2,
-    name: "Sarah Khan",
-    email: "sarah@gmail.com",
-    role: "Landlord",
-    status: true,
-  },
-  {
-    id: 3,
-    name: "Alex Smith",
-    email: "alex@gmail.com",
-    role: "Tenant",
-    status: false,
-  },
-  {
-    id: 4,
-    name: "Admin User",
-    email: "admin@gmail.com",
-    role: "Admin",
-    status: true,
-  },
-];
 
-export default function usersPage() {
+type UserType={
+  id:string,
+  name:string,
+  email:string,
+  phone:string,
+  role:string,
+  status:string,
+  createdAt:string
+ 
+}
+type Tuser = {
+  data?: UserType[];
+};
+export default async function usersPage() {
+   const cookiStore = await cookies();
+      const token = cookiStore.get("accessToken")?.value;
+      const users = (await getAllUsers(token ?? "")) as Tuser;
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -82,7 +72,7 @@ export default function usersPage() {
           </thead>
 
           <tbody>
-            {users.map((user) => (
+            {users.data?.map((user) => (
               <tr
                 key={user.id}
                 className="border-t"
@@ -102,21 +92,17 @@ export default function usersPage() {
                 </td>
 
                 <td className="px-6 py-5">
-                  {user.status ? (
-                    <Badge>
+                    {user.status==="ACTIVE"? <Badge>
                       Active
-                    </Badge>
-                  ) : (
-                    <Badge variant="destructive">
+                    </Badge>: <Badge variant="destructive">
                       Banned
-                    </Badge>
-                  )}
+                    </Badge>}
+                 
+                 
                 </td>
 
                 <td className="px-6 py-5 text-center">
-                  <Switch
-                    checked={user.status}
-                  />
+                 <UserStatusSwitch token={token??""}userId={user.id}initialStatus={user.status}></UserStatusSwitch>
                 </td>
 
                 <td className="px-6 py-5">
@@ -128,12 +114,7 @@ export default function usersPage() {
                       <Eye className="h-4 w-4" />
                     </Button>
 
-                    <Button
-                      size="icon"
-                      variant="destructive"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
+                    <DeleteUser id={user.id}token={token??""}propertyTitle={user.name}></DeleteUser>
                   </div>
                 </td>
               </tr>
