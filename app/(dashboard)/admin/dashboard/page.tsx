@@ -7,28 +7,9 @@ import {
 
 import { Card, CardContent } from "@/components/ui/card";
 import { getUsers } from "@/utiles/getUser";
-const stats = [
-  {
-    title: "Total Users",
-    value: 5,
-    icon: Users,
-  },
-  {
-    title: "Properties",
-    value: "856",
-    icon: Building2,
-  },
-  {
-    title: "Bookings",
-    value: "432",
-    icon: CalendarDays,
-  },
-  {
-    title: "Revenue",
-    value: "$18,540",
-    icon: DollarSign,
-  },
-];
+import { cookies } from "next/headers";
+import { getAllBookings, getAllProperties, getAllUsers } from "@/service/admin.service";
+
 
 const recentBookings = [
   {
@@ -60,11 +41,75 @@ const latestProperties = [
   "Modern Villa",
   "Family House",
   "Studio Flat",
-];
-
+]
+type UserType={
+  id:string,
+  name:string,
+  email:string,
+  phone:string,
+  role:string,
+  status:string,
+  createdAt:string
+ 
+}
+type LandlordProperty = {
+  id: string;
+  title: string;
+  location: string;
+  rent: string;
+  isAvailable:boolean,
+  address:string,
+  city:string
+};
+type BookingType = {
+  id: string;
+  moveInDate: string;
+   status:string,
+  tenant:{
+  name:string
+ },
+ property:{
+  title:string
+ }
+};
+type LandlordPropertiesResponse = {
+  data?: LandlordProperty[];
+};
+type BookingRes = {
+  data?: BookingType[];
+};
+type Tuser = {
+  data?: UserType[];
+};
 export default async function AdminDashboardPage() {
-//  const users=await getUsers()
-  // console.log(users);
+  const cookiStore = await cookies();
+    const token = cookiStore.get("accessToken")?.value;
+    const users = (await getAllUsers(token ?? "")) as Tuser;
+     const properties = (await getAllProperties(token ?? "")) as LandlordPropertiesResponse;
+     const bookings = (await getAllBookings(token ?? "")) as BookingRes;
+    
+    const stats = [
+  {
+    title: "Total Users",
+    value: users.data?.length,
+    icon: Users,
+  },
+  {
+    title: "Properties",
+    value: properties.data?.length,
+    icon: Building2,
+  },
+  {
+    title: "Bookings",
+    value: bookings.data?.length,
+    icon: CalendarDays,
+  },
+  {
+    title: "Revenue",
+    value: "$18,540",
+    icon: DollarSign,
+  },
+];
   return (
     <div className="space-y-8">
       {/* Heading */}
@@ -117,18 +162,18 @@ export default async function AdminDashboardPage() {
             </h2>
 
             <div className="space-y-4">
-              {recentBookings.map((booking) => (
+              {bookings.data?.slice(0,3).map((booking) => (
                 <div
-                  key={booking.tenant}
+                  key={booking.id}
                   className="flex items-center justify-between rounded-lg border p-4"
                 >
                   <div>
                     <h3 className="font-medium">
-                      {booking.tenant}
+                      {booking.tenant.name}
                     </h3>
 
                     <p className="text-sm text-muted-foreground">
-                      {booking.property}
+                      {booking.property.title}
                     </p>
                   </div>
 
@@ -148,12 +193,12 @@ export default async function AdminDashboardPage() {
             </h2>
 
             <div className="space-y-4">
-              {recentUsers.map((user) => (
+              {users.data?.map((user) => (
                 <div
-                  key={user}
+                  key={user.id}
                   className="rounded-lg border p-4"
                 >
-                  {user}
+                  {user.name}
                 </div>
               ))}
             </div>
@@ -170,13 +215,13 @@ export default async function AdminDashboardPage() {
           </h2>
 
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            {latestProperties.map((property) => (
+            {properties.data?.slice(0,3).map((property) => (
               <div
-                key={property}
+                key={property.id}
                 className="rounded-lg border p-5"
               >
                 <h3 className="font-medium">
-                  {property}
+                  {property.title}
                 </h3>
 
                 <p className="mt-2 text-sm text-muted-foreground">
