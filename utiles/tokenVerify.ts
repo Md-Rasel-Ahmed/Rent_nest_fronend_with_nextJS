@@ -12,6 +12,8 @@ export const tokenVerify=async()=>{
     if (token) {
       try {
         const decoded=jwt.decode(token) as JwtPayload
+        //  const decodedToken=jwt.verify(token,process.env.JWT_ACCESS_SECRET as string)as JwtPayload
+          // console.log(decoded,"from token verify");
         role = decoded.role;
       } catch (error) {
         console.error("Token decoding failed:", error);
