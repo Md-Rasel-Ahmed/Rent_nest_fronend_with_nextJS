@@ -40,11 +40,11 @@ const menus = [
     href: "/landlord/requests",
     icon: CalendarDays,
   },
-  {
-    title: "Earnings",
-    href: "/landlord/earnings",
-    icon: Wallet,
-  },
+  // {
+  //   title: "Earnings",
+  //   href: "/landlord/earnings",
+  //   icon: Wallet,
+  // },
 //   {
 //     title: "Reviews",
 //     href: "/dashboard/landlord/reviews",

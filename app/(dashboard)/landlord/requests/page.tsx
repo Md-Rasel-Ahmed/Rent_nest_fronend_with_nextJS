@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cookies } from "next/headers";
 import { getRentalRequests } from "@/service/landlord.service";
+import UpdateStatusModal from "@/components/properties/UpdateStatusModal";
 
 
 type LandlordProperty = {
@@ -123,12 +124,8 @@ export default async function RentalRequestsPage() {
                       <Eye className="h-4 w-4" />
                     </Button>
 
-                    <Button
-                      size="icon"
-                      variant="outline"
-                    >
-                      <Pencil className="h-4 w-4" />
-                    </Button>
+                     <UpdateStatusModal token={token??""} id={request.id}name={request.status}></UpdateStatusModal>
+
                   </div>
                 </td>
               </tr>

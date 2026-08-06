@@ -11,6 +11,7 @@ import { getLandlordProperties } from "@/service/landlord.service";
 import { cookies } from "next/headers";
 import AddPropertyModal from "@/components/dashboard/AddPropertyModal";
 import DeleteProperty from "@/components/DeleteProperty";
+import UpdatePropertyModal from "@/components/properties/UpdatePropertyModal";
 
 type LandlordProperty = {
   id: string;
@@ -99,7 +100,7 @@ export default async function MyPropertiesPage() {
                 </td>
 
                 <td className="px-6 py-5">
-                  {property.address + property.city}
+                  {property.address +", " + property.city}
                 </td>
 
                 <td className="px-6 py-5">
@@ -125,12 +126,7 @@ export default async function MyPropertiesPage() {
                       <Eye className="h-4 w-4" />
                     </Button>
 
-                    <Button
-                      size="icon"
-                      variant="outline"
-                    >
-                      <Pencil className="h-4 w-4" />
-                    </Button>
+                   <UpdatePropertyModal property={property.title} id={property.id} token={token??""}location={property.address}rent={property.rent}></UpdatePropertyModal>
 
                     <DeleteProperty id={property.id} token={token??""}propertyTitle={property.title}/>
                   </div>
