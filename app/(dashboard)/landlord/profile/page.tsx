@@ -1,13 +1,25 @@
-import { Building2, CalendarDays, Mail, MapPin, Phone, User, Wallet } from "lucide-react";
+import {
+  CalendarDays,
+  CreditCard,
+  Home,
+  Mail,
+  MapPin,
+  Phone,
+  User,
+} from "lucide-react";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { getMe } from "@/utiles/getMe";
+import EditProfileModal from "@/components/dashboard/EditProfileModal";
 
-export default function LandlordProfilePage() {
+export default async function landlordProfile() {
+  const userProfile=await getMe()
+  console.log(userProfile);
   return (
     <div className="space-y-8">
-      {/* Header */}
+      {/* Heading */}
 
       <div>
         <h1 className="text-3xl font-bold">
@@ -15,13 +27,13 @@ export default function LandlordProfilePage() {
         </h1>
 
         <p className="text-muted-foreground">
-          Manage your personal information.
+          View and manage your personal information.
         </p>
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-3">
-        {/* Profile Card */}
+      {/* Profile */}
 
+      <div className="grid gap-8 lg:grid-cols-3">
         <Card>
           <CardContent className="flex flex-col items-center p-8">
             <Avatar className="h-28 w-28">
@@ -31,20 +43,28 @@ export default function LandlordProfilePage() {
             </Avatar>
 
             <h2 className="mt-5 text-2xl font-bold">
-              Md Rasel Ahmed
+             {userProfile.data?.name||"Jhon"}
             </h2>
 
             <p className="text-muted-foreground">
-              Landlord
+              {userProfile.data?.role}
             </p>
 
-            <Button className="mt-6 w-full">
-              Edit Profile
-            </Button>
+            {userProfile.data && (
+              <EditProfileModal
+                user={{
+                  ...userProfile.data,
+                  // ensure name is string | undefined (not null)
+                  name: userProfile.data.name ?? undefined,
+                  // convert null phone to undefined to match UserData type
+                  phone: userProfile.data.phone ?? undefined,
+                }}
+              />
+            )}
           </CardContent>
         </Card>
 
-        {/* Information */}
+        {/* Personal Information */}
 
         <Card className="lg:col-span-2">
           <CardContent className="grid gap-6 p-8 md:grid-cols-2">
@@ -57,7 +77,7 @@ export default function LandlordProfilePage() {
                 </p>
 
                 <h3 className="font-semibold">
-                  Md Rasel Ahmed
+                   {userProfile.data?.name||"Jhon doe"}
                 </h3>
               </div>
             </div>
@@ -71,7 +91,7 @@ export default function LandlordProfilePage() {
                 </p>
 
                 <h3 className="font-semibold">
-                  rasel@gmail.com
+                   {userProfile.data?.email}
                 </h3>
               </div>
             </div>
@@ -85,7 +105,7 @@ export default function LandlordProfilePage() {
                 </p>
 
                 <h3 className="font-semibold">
-                  +880 1712345678
+                   {userProfile.data?.phone||"017000000000"}
                 </h3>
               </div>
             </div>
@@ -105,20 +125,6 @@ export default function LandlordProfilePage() {
             </div>
 
             <div className="flex items-center gap-4">
-              <Building2 className="text-primary" />
-
-              <div>
-                <p className="text-sm text-muted-foreground">
-                  NID Number
-                </p>
-
-                <h3 className="font-semibold">
-                  ************4567
-                </h3>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4">
               <CalendarDays className="text-primary" />
 
               <div>
@@ -127,7 +133,21 @@ export default function LandlordProfilePage() {
                 </p>
 
                 <h3 className="font-semibold">
-                  12 July 2026
+                   {userProfile.data?.createdAt}
+                </h3>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <Home className="text-primary" />
+
+              <div>
+                <p className="text-sm text-muted-foreground">
+                  Current Property
+                </p>
+
+                <h3 className="font-semibold">
+                  Luxury Apartment
                 </h3>
               </div>
             </div>
@@ -135,22 +155,22 @@ export default function LandlordProfilePage() {
         </Card>
       </div>
 
-      {/* Stats */}
+      {/* Summary Cards */}
 
-      <div className="grid gap-6 md:grid-cols-3">
+      {/* <div className="grid gap-6 md:grid-cols-3">
         <Card>
           <CardContent className="flex items-center justify-between p-6">
             <div>
               <p className="text-muted-foreground">
-                Properties
+                Active Rentals
               </p>
 
               <h2 className="text-3xl font-bold">
-                18
+                1
               </h2>
             </div>
 
-            <Building2 className="h-10 w-10 text-primary" />
+            <Home className="h-10 w-10 text-primary" />
           </CardContent>
         </Card>
 
@@ -158,34 +178,34 @@ export default function LandlordProfilePage() {
           <CardContent className="flex items-center justify-between p-6">
             <div>
               <p className="text-muted-foreground">
-                Total Bookings
+                Total Payments
               </p>
 
               <h2 className="text-3xl font-bold">
-                142
+                $2,450
+              </h2>
+            </div>
+
+            <CreditCard className="h-10 w-10 text-primary" />
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="flex items-center justify-between p-6">
+            <div>
+              <p className="text-muted-foreground">
+                Pending Requests
+              </p>
+
+              <h2 className="text-3xl font-bold">
+                2
               </h2>
             </div>
 
             <CalendarDays className="h-10 w-10 text-primary" />
           </CardContent>
         </Card>
-
-        <Card>
-          <CardContent className="flex items-center justify-between p-6">
-            <div>
-              <p className="text-muted-foreground">
-                Earnings
-              </p>
-
-              <h2 className="text-3xl font-bold">
-                $12,480
-              </h2>
-            </div>
-
-            <Wallet className="h-10 w-10 text-primary" />
-          </CardContent>
-        </Card>
-      </div>
+      </div> */}
     </div>
   );
 }

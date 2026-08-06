@@ -7,38 +7,32 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { cookies } from "next/headers";
+import { getRentalRequests } from "@/service/landlord.service";
 
-const requests = [
-  {
-    id: 1,
-    tenant: "John Doe",
-    property: "Luxury Apartment",
-    phone: "+8801712345678",
-    rent: "$500",
-    moveIn: "20 Aug 2026",
-    status: "Pending",
-  },
-  {
-    id: 2,
-    tenant: "Sarah Khan",
-    property: "Modern Villa",
-    phone: "+8801812345678",
-    rent: "$850",
-    moveIn: "25 Aug 2026",
-    status: "Approved",
-  },
-  {
-    id: 3,
-    tenant: "Alex Smith",
-    property: "Studio Flat",
-    phone: "+8801912345678",
-    rent: "$300",
-    moveIn: "01 Sep 2026",
-    status: "Rejected",
-  },
-];
 
-export default function RentalRequestsPage() {
+type LandlordProperty = {
+  id: string;
+  tenant: {
+    name: string;
+    phone: string;
+  };
+  property: {
+    title: string;
+    rent: number;
+  };
+  moveInDate: string;
+  status: string;
+};
+
+type LandlordPropertiesResponse = {
+  data?: LandlordProperty[];
+};
+export default async function RentalRequestsPage() {
+  const cookiStore = await cookies();
+    const token = cookiStore.get("accessToken")?.value;
+    const requestedProperties = (await getRentalRequests(token ?? "")) as LandlordPropertiesResponse;
+    console.log(requestedProperties.data)
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -81,29 +75,29 @@ export default function RentalRequestsPage() {
           </thead>
 
           <tbody>
-            {requests.map((request) => (
+            {requestedProperties.data?.map((request) => (
               <tr
-                key={request.id}
+                key={request.id} 
                 className="border-t"
               >
                 <td className="px-6 py-5 font-medium">
-                  {request.tenant}
+                  {request.tenant.name}
                 </td>
 
                 <td className="px-6 py-5">
-                  {request.property}
+                  {request.property.title}
                 </td>
 
                 <td className="px-6 py-5">
-                  {request.phone}
+                  {request.tenant.phone}
                 </td>
 
                 <td className="px-6 py-5">
-                  {request.rent}
+                  {request.property.rent}
                 </td>
 
                 <td className="px-6 py-5">
-                  {request.moveIn}
+                  {request.moveInDate}
                 </td>
 
                 <td className="px-6 py-5">

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   Building2,
   CalendarDays,
@@ -17,6 +17,7 @@ import {
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { logout } from "@/service/logout";
 
 const menus = [
   {
@@ -67,8 +68,12 @@ const menus = [
 ];
 
 export default function LandlordSidebar() {
-  const pathname = usePathname();
-
+ const pathname = usePathname();
+  const route=useRouter()
+  const handleLogout=async()=>{
+    await logout()
+    route.push("/login")
+  }
   return (
     <aside className="flex h-screen w-72 flex-col border-r bg-background">
       {/* Logo */}
@@ -125,11 +130,11 @@ export default function LandlordSidebar() {
       {/* Footer */}
 
       <div className="border-t p-4">
-        <Button
+       <Button onClick={handleLogout}
           variant="outline"
           className="w-full justify-start"
         >
-          <LogOut className="mr-2 h-4 w-4" />
+          <LogOut  className="mr-2 h-4 w-4" />
           Logout
         </Button>
       </div>

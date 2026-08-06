@@ -6,6 +6,12 @@ export const getLandlordProperties = (token: string) => {
     token,
   });
 };
+export const getRentalRequests = (token: string) => {
+  return fetcher("/landlord/properties/requests", {
+    method: "GET",
+    token,
+  });
+};
 
 export const deleteProperty=(token:string,id:string)=>{
      return fetcher(`/landlord/properties/${id}`, {
