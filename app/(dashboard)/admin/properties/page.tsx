@@ -3,35 +3,28 @@ import { Eye, Pencil, Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { getProperties } from "@/utiles/getProperties";
+import { cookies } from "next/headers";
+import { getAllProperties } from "@/service/admin.service";
+import DeletePropertyButton from "@/components/DeleteProperty";
 
-const propertiess = [
-  {
-    id: 1,
-    title: "Luxury Apartment",
-    landlord: "John Doe",
-    city: "Dhaka",
-    price: "$500",
-    status: "Published",
-  },
-  {
-    id: 2,
-    title: "Modern Villa",
-    landlord: "Sarah Khan",
-    city: "Sylhet",
-    price: "$850",
-    status: "Pending",
-  },
-  {
-    id: 3,
-    title: "Studio Room",
-    landlord: "Alex",
-    city: "Khulna",
-    price: "$300",
-    status: "Published",
-  },
-];
+
+type LandlordProperty = {
+  id: string;
+  title: string;
+  location: string;
+  rent: string;
+  isAvailable:boolean,
+  address:string,
+  city:string
+};
+type LandlordPropertiesResponse = {
+  data?: LandlordProperty[];
+};
 export default async function AdminPropertiesPage() {
- const properties:[{id:string,title:string,landlord:string,city:string,price:string,status:string}]=await getProperties()
+  const cookiStore = await cookies();
+      const token = cookiStore.get("accessToken")?.value;
+  const properties = (await getAllProperties(token ?? "")) as LandlordPropertiesResponse;
+
   return (
     <div className="space-y-8">
       {/* Header */}
@@ -93,7 +86,7 @@ export default async function AdminPropertiesPage() {
           </thead>
 
           <tbody>
-            {properties?.map((property) => (
+            {properties.data?.map((property) => (
               <tr
                 key={property.id}
                 className="border-t"
@@ -103,7 +96,7 @@ export default async function AdminPropertiesPage() {
                 </td>
 
                 <td className="px-6 py-5">
-                  {property.landlord}
+                  {property.city}
                 </td>
 
                 <td className="px-6 py-5">
@@ -111,12 +104,12 @@ export default async function AdminPropertiesPage() {
                 </td>
 
                 <td className="px-6 py-5">
-                  {property.price}
+                  {property.rent}
                 </td>
 
                 <td className="px-6 py-5">
                   <span className="rounded-full bg-green-100 px-3 py-1 text-sm text-green-700">
-                    {property.status}
+                    {property.isAvailable?"Active":"not active"}
                   </span>
                 </td>
 
@@ -136,12 +129,7 @@ export default async function AdminPropertiesPage() {
                       <Pencil className="h-4 w-4" />
                     </Button>
 
-                    <Button
-                      size="icon"
-                      variant="destructive"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
+                   <DeletePropertyButton id={property.id}token={token??""} propertyTitle={property.title}></DeletePropertyButton>
                   </div>
                 </td>
               </tr>

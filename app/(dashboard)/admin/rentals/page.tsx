@@ -3,6 +3,8 @@ import { Eye, Trash2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { cookies } from "next/headers";
+import { getAllBookings } from "@/service/admin.service";
 
 const rentals = [
   {
@@ -33,8 +35,29 @@ const rentals = [
     status: "Completed",
   },
 ];
-
-export default function RentalsPage() {
+type BookingType = {
+  id: string;
+  moveInDate: string;
+   status:string,
+   payment:[{
+    status:string
+   }],
+  tenant:{
+  name:string
+ },
+ property:{
+  title:string,
+  rent:string
+ }
+};
+type BookingRes = {
+  data?: BookingType[];
+};
+export default async function RentalsPage() {
+   const cookiStore = await cookies();
+        const token = cookiStore.get("accessToken")?.value;
+       const bookings = (await getAllBookings(token ?? "")) as BookingRes;
+        
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -73,43 +96,45 @@ export default function RentalsPage() {
           </thead>
 
           <tbody>
-            {rentals.map((rental) => (
+            {bookings.data?.map((rental) => (
               <tr
                 key={rental.id}
                 className="border-t"
               >
                 <td className="px-6 py-5 font-medium">
-                  {rental.property}
+                  {rental.property.title}
                 </td>
 
                 <td className="px-6 py-5">
-                  {rental.tenant}
+                  {rental.tenant.name}
                 </td>
 
                 <td className="px-6 py-5">
-                  {rental.landlord}
+                  {/* {rental.landlord} */}
+                  Jhon
                 </td>
 
                 <td className="px-6 py-5">
-                  {rental.rent}
+                  {rental.property.rent}
                 </td>
 
                 <td className="px-6 py-5">
-                  <Badge
+                  {/* <Badge
                     variant={
-                      rental.payment === "Paid"
+                      rental.payment[0]?.status === "SUCCESS"
                         ? "default"
                         : "secondary"
                     }
                   >
-                    {rental.payment}
-                  </Badge>
+                    {rental.payment[0]?.status}
+                  </Badge> */}
+                  paid
                 </td>
-
+{/* RENTAL APPROVED WILL IMPLIMENT LETTER */}
                 <td className="px-6 py-5">
                   <Badge
                     variant={
-                      rental.status === "Active"
+                      rental.status === "ACTIVE"
                         ? "default"
                         : rental.status === "Pending"
                         ? "secondary"
