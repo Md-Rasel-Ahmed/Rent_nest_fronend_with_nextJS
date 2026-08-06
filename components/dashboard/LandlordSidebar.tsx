@@ -60,11 +60,11 @@ const menus = [
     href: "/landlord/profile",
     icon: User,
   },
-  {
-    title: "Settings",
-    href: "/landlord/settings",
-    icon: Settings,
-  },
+  // {
+  //   title: "Settings",
+  //   href: "/landlord/settings",
+  //   icon: Settings,
+  // },
 ];
 
 export default function LandlordSidebar() {

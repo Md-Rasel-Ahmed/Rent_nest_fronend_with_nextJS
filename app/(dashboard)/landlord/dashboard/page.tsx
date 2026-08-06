@@ -8,53 +8,10 @@ import {
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { cookies } from "next/headers";
+import { getLandlordProperties, getRentalRequests } from "@/service/landlord.service";
 
-const stats = [
-  {
-    title: "Total Properties",
-    value: "12",
-    icon: Building2,
-  },
-  {
-    title: "Active Bookings",
-    value: "28",
-    icon: CalendarDays,
-  },
-  {
-    title: "Total Earnings",
-    value: "$8,450",
-    icon: Wallet,
-  },
-  {
-    title: "Average Rating",
-    value: "4.9",
-    icon: Star,
-  },
-];
 
-const recentBookings = [
-  {
-    id: 1,
-    tenant: "John Doe",
-    property: "Luxury Apartment",
-    date: "20 Aug 2026",
-    status: "Confirmed",
-  },
-  {
-    id: 2,
-    tenant: "Sarah Khan",
-    property: "Studio Flat",
-    date: "18 Aug 2026",
-    status: "Pending",
-  },
-  {
-    id: 3,
-    tenant: "Alex Smith",
-    property: "Family House",
-    date: "15 Aug 2026",
-    status: "Completed",
-  },
-];
 
 const recentProperties = [
   {
@@ -76,9 +33,65 @@ const recentProperties = [
     rent: "$250 / month",
   },
 ];
+type LandlordProperty = {
+  id: string;
+  title: string;
+  location: string;
+  rent: string;
+  isAvailable:boolean,
+  address:string,
+  city:string
+};
 
-export default function LandlordDashboardPage() {
-  return (
+type LandlordPropertiesResponse = {
+  data?: LandlordProperty[];
+};
+type LandlordPropertyR = {
+  id: string;
+  tenant: {
+    name: string;
+    phone: string;
+  };
+  property: {
+    title: string;
+    rent: number;
+  };
+  moveInDate: string;
+  status: string;
+  createdAt:string
+};
+
+type LandlordPropertiesResponseR = {
+  data?: LandlordPropertyR[];
+};
+export default async function LandlordDashboardPage() {
+  const cookiStore = await cookies();
+    const token = cookiStore.get("accessToken")?.value;
+    const properties = (await getLandlordProperties(token ?? "")) as LandlordPropertiesResponse;
+  const requestedProperties = (await getRentalRequests(token ?? "")) as LandlordPropertiesResponseR;
+    const stats = [
+  {
+    title: "Total Properties",
+    value: properties.data?.length,
+    icon: Building2,
+  },
+  {
+    title: "Active Bookings",
+    value: requestedProperties.data?.filter(property=>property.status==="ACTIVE").length,
+    icon: CalendarDays,
+  },
+  {
+    title: "Total Earnings",
+    value: "$8,450",
+    icon: Wallet,
+  },
+  {
+    title: "Average Rating",
+    value: "4.9",
+    icon: Star,
+  },
+];
+    return (
     <div className="space-y-8">
       {/* Heading */}
 
@@ -130,22 +143,22 @@ export default function LandlordDashboardPage() {
             </h2>
 
             <div className="space-y-4">
-              {recentBookings.map((booking) => (
+              {requestedProperties.data?.map((booking) => (
                 <div
                   key={booking.id}
                   className="flex items-center justify-between rounded-lg border p-4"
                 >
                   <div>
                     <h3 className="font-medium">
-                      {booking.tenant}
+                      {booking.tenant.name}
                     </h3>
 
                     <p className="text-sm text-muted-foreground">
-                      {booking.property}
+                      {booking.property.title}
                     </p>
 
                     <p className="text-xs text-muted-foreground mt-1">
-                      {booking.date}
+                      {booking.createdAt}
                     </p>
                   </div>
 
@@ -167,14 +180,14 @@ export default function LandlordDashboardPage() {
             </h2>
 
             <div className="space-y-4">
-              {recentProperties.map((property) => (
+              {properties.data?.map((property) => (
                 <div
                   key={property.id}
                   className="flex items-center justify-between rounded-lg border p-4"
                 >
                   <div>
                     <h3 className="font-medium">
-                      {property.name}
+                      {property.title}
                     </h3>
 
                     <p className="text-sm text-muted-foreground">
