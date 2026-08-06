@@ -7,29 +7,10 @@ import {
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { cookies } from "next/headers";
+import { getRentals } from "@/service/rental.service";
 
-const stats = [
-  {
-    title: "Active Rentals",
-    value: "1",
-    icon: Home,
-  },
-  {
-    title: "Pending Requests",
-    value: "2",
-    icon: CalendarDays,
-  },
-  {
-    title: "Wishlist",
-    value: "8",
-    icon: Heart,
-  },
-  {
-    title: "Total Payments",
-    value: "$2,450",
-    icon: CreditCard,
-  },
-];
+
 
 const requests = [
   {
@@ -61,7 +42,34 @@ const activeRentals = [
   },
 ];
 
-export default function TenantDashboardPage() {
+export default async function TenantDashboardPage() {
+    const cookiStore = await cookies();
+    const token = cookiStore.get("accessToken")?.value;
+    // getRentals may return an unknown type; assert a shape with optional data array
+    const rentals = (await getRentals(token ?? "")) as { data?: { status?: string }[] };
+    const stats = [
+  {
+    title: "Active Rentals",
+    value: rentals.data?.filter(rental=>rental.status==="ACTIVE").length,
+    icon: Home,
+  },
+  {
+    title: "Pending Requests",
+    value:rentals.data?.filter(rental=>rental.status==="PENDING").length,
+    icon: CalendarDays,
+  },
+   {
+    title: "Rejected equests",
+    value:rentals.data?.filter(rental=>rental.status==="REJECTED").length,
+    icon: CalendarDays,
+  },
+  {
+    title: "Total Payments",
+    value: "$2,450",
+    icon: CreditCard,
+  },
+];
+    console.log(rentals);
   return (
     <div className="space-y-8">
       {/* Header */}
@@ -109,14 +117,14 @@ export default function TenantDashboardPage() {
       <section className="grid gap-6 lg:grid-cols-2">
         {/* Recent Requests */}
 
-        <Card>
+        {/* <Card>
           <CardContent className="p-6">
             <h2 className="mb-5 text-xl font-semibold">
               Recent Requests
             </h2>
 
             <div className="space-y-4">
-              {requests.map((request) => (
+              {rentals.data?.map((request) => (
                 <div
                   key={request.id}
                   className="flex items-center justify-between rounded-lg border p-4"
@@ -146,11 +154,11 @@ export default function TenantDashboardPage() {
               ))}
             </div>
           </CardContent>
-        </Card>
+        </Card> */}
 
         {/* Active Rentals */}
 
-        <Card>
+        {/* <Card>
           <CardContent className="p-6">
             <h2 className="mb-5 text-xl font-semibold">
               Active Rental
@@ -177,7 +185,7 @@ export default function TenantDashboardPage() {
               ))}
             </div>
           </CardContent>
-        </Card>
+        </Card> */}
       </section>
     </div>
   );

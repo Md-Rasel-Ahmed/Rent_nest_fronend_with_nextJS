@@ -17,14 +17,7 @@ export default function Error({
   return (
     <div>
       <h2>Something went wrong!</h2>
-      <button
-        onClick={
-          // Attempt to recover by re-fetching and re-rendering the segment
-          () => retry()
-        }
-      >
-        Try again
-      </button>
+      
     </div>
   )
 }
