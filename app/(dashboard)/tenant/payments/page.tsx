@@ -3,6 +3,8 @@ import { CreditCard, Download, Wallet } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { cookies } from "next/headers";
+import { getPaymentsHistory } from "@/service/rental.service";
 
 const currentPayment = {
   property: "Luxury Apartment",
@@ -36,7 +38,11 @@ const paymentHistory = [
   },
 ];
 
-export default function TenantPaymentsPage() {
+export default async function TenantPaymentsPage() {
+  const cookiStore = await cookies();
+      const token = cookiStore.get("accessToken")?.value;
+      const payments = (await getPaymentsHistory(token ?? "")) as { data?: { status?: string; amount?: number;id:string }[] };
+      
   return (
     <div className="space-y-8">
       {/* Heading */}
@@ -125,7 +131,7 @@ export default function TenantPaymentsPage() {
               </thead>
 
               <tbody>
-                {paymentHistory.map((payment) => (
+                {payments.data?.map((payment) => (
                   <tr
                     key={payment.id}
                     className="border-t"

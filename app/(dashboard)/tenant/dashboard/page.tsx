@@ -8,7 +8,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { cookies } from "next/headers";
-import { getRentals } from "@/service/rental.service";
+import { getPaymentsHistory, getRentals } from "@/service/rental.service";
 
 
 
@@ -45,8 +45,9 @@ const activeRentals = [
 export default async function TenantDashboardPage() {
     const cookiStore = await cookies();
     const token = cookiStore.get("accessToken")?.value;
-    // getRentals may return an unknown type; assert a shape with optional data array
+    // getRentals/payments may return an unknown type; assert a shape with optional data array
     const rentals = (await getRentals(token ?? "")) as { data?: { status?: string }[] };
+    const payments = (await getPaymentsHistory(token ?? "")) as { data?: { status?: string; amount?: number }[] };
     const stats = [
   {
     title: "Active Rentals",
@@ -65,7 +66,12 @@ export default async function TenantDashboardPage() {
   },
   {
     title: "Total Payments",
-    value: "$2,450",
+    value: payments.data?.reduce((total, item) => {
+      if (item.status === "success") {
+        return total + (item.amount ?? 0);
+      }
+      return total;
+    }, 0),
     icon: CreditCard,
   },
 ];

@@ -145,7 +145,7 @@ export default function TenantProfilePage() {
 
       {/* Summary Cards */}
 
-      <div className="grid gap-6 md:grid-cols-3">
+      {/* <div className="grid gap-6 md:grid-cols-3">
         <Card>
           <CardContent className="flex items-center justify-between p-6">
             <div>
@@ -193,7 +193,7 @@ export default function TenantProfilePage() {
             <CalendarDays className="h-10 w-10 text-primary" />
           </CardContent>
         </Card>
-      </div>
+      </div> */}
     </div>
   );
 }
