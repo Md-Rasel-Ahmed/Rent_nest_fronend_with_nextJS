@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Plus } from "lucide-react";
+import { Loader2, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -16,10 +16,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { fetcher } from "@/lib/fether";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
-export default function AddPropertyModal({token}:{token:string}) {
-
+export default function AddPropertyModal({ token }: { token: string }) {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false); 
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -47,10 +50,10 @@ export default function AddPropertyModal({token}:{token:string}) {
     }));
   };
 
-  const handleSubmit =async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // API Payload
+    setLoading(true);
+
     const payload = {
       ...formData,
       rent: Number(formData.rent),
@@ -59,18 +62,32 @@ export default function AddPropertyModal({token}:{token:string}) {
     };
 
     try {
-    const res = await fetcher("/landlord/properties", {
-      method: "POST",
-      token: token, 
-      body: JSON.stringify(payload),
-    });
+      const res = await fetcher("/landlord/properties", {
+        method: "POST",
+        token: token,
+        body: JSON.stringify(payload),
+      });
 
-    console.log("Property Created Successfully:", res);
-    setOpen(false);
-  } catch (error) {
-    console.error("API Error:", error);
-  }
-   
+      toast.success("Property Created Successfully")
+      setFormData({
+        title: "",
+        description: "",
+        address: "",
+        city: "",
+        rent: "",
+        bedrooms: "",
+        bathrooms: "",
+        area: "",
+        isAvailable: true,
+      });
+
+      setOpen(false);
+      router.refresh(); 
+    } catch (error) {
+      console.error("API Error:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -206,11 +223,22 @@ export default function AddPropertyModal({token}:{token:string}) {
             <Button
               type="button"
               variant="outline"
+              disabled={loading}
               onClick={() => setOpen(false)}
             >
               Cancel
             </Button>
-            <Button type="submit">Submit Property</Button>
+            
+            <Button type="submit" disabled={loading}>
+              {loading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Submitting...
+                </>
+              ) : (
+                "Submit Property"
+              )}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

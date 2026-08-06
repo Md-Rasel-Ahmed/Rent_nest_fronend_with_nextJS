@@ -29,11 +29,11 @@ const menus = [
     href: "/landlord/properties",
     icon: Building2,
   },
-  {
-    title: "Add Property",
-    href: "/dashboard/add-property",
-    icon: PlusSquare,
-  },
+  // {
+  //   title: "Add Property",
+  //   href: "/dashboard/add-property",
+  //   icon: PlusSquare,
+  // },
   {
     title: "Requests",
     href: "/landlord/requests",

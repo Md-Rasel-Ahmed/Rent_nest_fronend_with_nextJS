@@ -1,9 +1,7 @@
 import {
   Eye,
   Pencil,
-  Plus,
   Search,
-  Trash2,
 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -12,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { getLandlordProperties } from "@/service/landlord.service";
 import { cookies } from "next/headers";
 import AddPropertyModal from "@/components/dashboard/AddPropertyModal";
+import DeleteProperty from "@/components/DeleteProperty";
 
 type LandlordProperty = {
   id: string;
@@ -31,6 +30,7 @@ export default async function MyPropertiesPage() {
   const cookiStore = await cookies();
   const token = cookiStore.get("accessToken")?.value;
   const properties = (await getLandlordProperties(token ?? "")) as LandlordPropertiesResponse;
+  
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -132,12 +132,7 @@ export default async function MyPropertiesPage() {
                       <Pencil className="h-4 w-4" />
                     </Button>
 
-                    <Button
-                      size="icon"
-                      variant="destructive"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
+                    <DeleteProperty id={property.id} token={token??""}propertyTitle={property.title}/>
                   </div>
                 </td>
               </tr>
