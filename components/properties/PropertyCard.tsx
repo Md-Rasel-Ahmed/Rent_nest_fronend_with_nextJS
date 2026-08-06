@@ -10,10 +10,10 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Property } from "@/app/types/property";
+import { PropertyType } from "@/app/types/property";
 
 interface Props {
-  property: Property;
+  property: PropertyType;
 }
 
 export default function PropertyCard({ property }: Props) {

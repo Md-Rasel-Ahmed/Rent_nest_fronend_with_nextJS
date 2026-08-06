@@ -1,4 +1,5 @@
-export interface Property {
+export interface PropertyType {
+  [x: string]: string | number | Date;
   id: string;
   title: string;
   image: string;
@@ -9,5 +10,7 @@ export interface Property {
   bathrooms: number;
   area: number;
   rent: number;
-  verified: boolean;
+}
+export interface Property{
+  data?:PropertyType[]
 }

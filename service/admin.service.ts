@@ -18,3 +18,8 @@ export const getAllBookings = (token: string) => {
     token,
   });
 };
+export const AllCategories = () => {
+  return fetcher("/categories", {
+    method: "GET",
+  });
+};

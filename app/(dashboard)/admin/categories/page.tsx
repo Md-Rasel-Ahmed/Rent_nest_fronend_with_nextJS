@@ -2,6 +2,10 @@ import { Pencil, Plus, Search, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import AddCategoryModal from "@/components/dashboard/AddCategoryModal";
+import { cookies } from "next/headers";
+import { AllCategories } from "@/service/admin.service";
+import EditCategoryModal from "@/components/dashboard/EditCategoryModal";
 
 const categories = [
   {
@@ -29,8 +33,19 @@ const categories = [
     createdAt: "28 Jul 2026",
   },
 ];
+type CategoryType={
+  name:string,
+  id:string,
+  createdAt:string
+}
+type CategoryRes={
+  data?:CategoryType[]
+}
+export default async function CategoriesPage() {
+  const cookiStore=await cookies()
+  const token=cookiStore.get("accessToken")?.value
+  const allCategories=(await AllCategories()) as CategoryRes
 
-export default function CategoriesPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -46,10 +61,7 @@ export default function CategoriesPage() {
           </p>
         </div>
 
-        <Button>
-          <Plus className="mr-2 h-4 w-4" />
-          Add Category
-        </Button>
+        <AddCategoryModal token={token??""}></AddCategoryModal>
       </div>
 
       {/* Search */}
@@ -88,7 +100,7 @@ export default function CategoriesPage() {
           </thead>
 
           <tbody>
-            {categories.map((category) => (
+            {allCategories.data?.map((category) => (
               <tr
                 key={category.id}
                 className="border-t"
@@ -98,7 +110,8 @@ export default function CategoriesPage() {
                 </td>
 
                 <td className="px-6 py-5">
-                  {category.properties}
+                  {/* {category.properties} */}
+                  00
                 </td>
 
                 <td className="px-6 py-5">
@@ -107,12 +120,7 @@ export default function CategoriesPage() {
 
                 <td className="px-6 py-5">
                   <div className="flex justify-center gap-2">
-                    <Button
-                      size="icon"
-                      variant="outline"
-                    >
-                      <Pencil className="h-4 w-4" />
-                    </Button>
+                   <EditCategoryModal token={token??""} id={category.id} initialName={category.name}></EditCategoryModal>
 
                     <Button
                       size="icon"

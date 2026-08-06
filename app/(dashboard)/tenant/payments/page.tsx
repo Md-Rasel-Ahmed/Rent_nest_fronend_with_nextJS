@@ -69,7 +69,7 @@ export default async function TenantPaymentsPage() {
             <p className="text-muted-foreground">
               Property: {currentPayment.property}
             </p>
-
+          
             <p className="text-muted-foreground">
               Landlord: {currentPayment.landlord}
             </p>

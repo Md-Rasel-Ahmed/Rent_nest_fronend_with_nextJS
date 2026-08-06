@@ -2,7 +2,7 @@ import { Eye, Pencil, Plus, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { getProperties } from "@/utiles/getProperties";
+import { getProperties } from "@/service/getProperties";
 import { cookies } from "next/headers";
 import { getAllProperties } from "@/service/admin.service";
 import DeletePropertyButton from "@/components/DeleteProperty";
