@@ -1,96 +1,46 @@
-"use client";
-
-import {
-  Bell,
-  Menu,
-  MessageSquare,
-  Search,
-  User,
-  Settings,
-  LogOut,
-} from "lucide-react";
-
-import { Input } from "@/components/ui/input";
+import { Menu, Bell, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar";
-
-export default function Topbar() {
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
+import Sidebar from "./Sidebar";
+import { IUser } from "@/app/types/user";
+interface NavbarProps {
+  user: IUser;
+}
+export default function Topbar({user}:NavbarProps) {
   return (
-    <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b bg-background px-4 lg:px-8">
-      {/* Left */}
-
+    <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b bg-background px-4 md:px-6">
       <div className="flex items-center gap-4">
-        {/* Mobile Sidebar Button */}
+        {/* Mobile Hamburger Menu */}
+        <Sheet>
+          <SheetTrigger >
+            <Button variant="outline" size="icon" className="md:hidden">
+              <Menu className="h-5 w-5" />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left" className="p-0 w-64">
+            <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
+            <Sidebar userRole={user.role} />
+          </SheetContent>
+        </Sheet>
 
-        <Button
-          variant="ghost"
-          size="icon"
-          className="lg:hidden"
-        >
-          <Menu className="h-5 w-5" />
-        </Button>
-
-        {/* Search */}
-
-        <div className="relative hidden md:block">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-
-          <Input
-            placeholder="Search..."
-            className="w-65 pl-10 lg:w-87.5"
-          />
-        </div>
+        <h1 className="text-lg font-semibold md:text-xl">Dashboard</h1>
       </div>
 
-      {/* Right */}
-
-      <div className="flex items-center gap-2">
-        <Button
-          size="icon"
-          variant="ghost"
-        >
-          <Bell className="h-5 w-5" />
+      <div className="flex items-center gap-3">
+        {/* Notification Button */}
+        <Button variant="outline" size="icon" className="rounded-full">
+          <Bell className="h-4 w-4" />
         </Button>
 
+        {/* User Profile Dropdown */}
         <Button
-          size="icon"
-          variant="ghost"
-        >
-          <MessageSquare className="h-5 w-5" />
-        </Button>
-
-        {/* Profile */}
-
-        <DropdownMenu>
-          <DropdownMenuTrigger >
-            <Button
               variant="ghost"
               className="flex h-auto items-center gap-3 px-2"
             >
-              <Avatar className="h-9 w-9">
-                <AvatarImage src="" />
-
-                <AvatarFallback>
-                  RA
-                </AvatarFallback>
-              </Avatar>
-
+            
               <div className="hidden text-left lg:block">
                 <p className="text-sm font-medium">
-                  Md Rasel
+                 {user.name}
                 </p>
 
                 <p className="text-xs text-muted-foreground">
@@ -98,30 +48,6 @@ export default function Topbar() {
                 </p>
               </div>
             </Button>
-          </DropdownMenuTrigger>
-
-          <DropdownMenuContent
-            align="end"
-            className="w-56"
-          >
-            <DropdownMenuItem>
-              <User className="mr-2 h-4 w-4" />
-              Profile
-            </DropdownMenuItem>
-
-            <DropdownMenuItem>
-              <Settings className="mr-2 h-4 w-4" />
-              Settings
-            </DropdownMenuItem>
-
-            <DropdownMenuSeparator />
-
-            <DropdownMenuItem className="text-red-500 focus:text-red-500">
-              <LogOut className="mr-2 h-4 w-4" />
-              Logout
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
       </div>
     </header>
   );

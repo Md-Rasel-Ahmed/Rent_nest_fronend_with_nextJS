@@ -47,12 +47,13 @@ const onSubmit = async (data: SingupFormData) => {
     phone:data.phone||"",
     role:data?.role.toUpperCase()
    }
+   
       try {
         const res = await singupAction(singupPayload);
   
         if (res.success) {
           toast.success(res.message || "Singup successfully!");
-          router.push("/");
+          router.push("/login");
           // router.refresh();
         } else {
           toast.error(res.message || "Failed to singup!");

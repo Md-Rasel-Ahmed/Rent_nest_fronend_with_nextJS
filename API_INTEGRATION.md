@@ -6,7 +6,7 @@ This document describes how the RentNest frontend integrates with the backend AP
 
 # Authentication
 
-|--------------------------|--------|----------|---------|
+| ------------------ | ----------------------------------- |
 | Login Page | POST | `/auth/login` | Authenticate user and set HttpOnly cookie |
 | Register Page | POST | `/auth/register` | Create a new account |
 | Navbar/Layout | GET | `/auth/me` | Get logged-in user information |
@@ -17,6 +17,7 @@ This document describes how the RentNest frontend integrates with the backend AP
 
 # Properties
 
+| ------------------ | ----------------------------------- |
 | Properties Page | GET | `/landlord/properties` | Fetch all properties |
 | Property Details | GET | `/landlord/properties/:id` | Fetch single property |
 | Add Property (Landlord) | POST | `/landlord/properties` | Create a property |
@@ -27,6 +28,7 @@ This document describes how the RentNest frontend integrates with the backend AP
 
 # Rental Requests
 
+| ------------------ | ----------------------------------- |
 | Tenant Request | POST | `/rentals` | Submit rental request |
 | Landlord Requests | GET | `/landlord/properties/requests` | View all rental requests |
 | Update Request Status | PATCH | `/landlord/properties/requests/:id` | Approve/Reject request |
@@ -35,6 +37,7 @@ This document describes how the RentNest frontend integrates with the backend AP
 
 # Payments
 
+| ------------------ | ----------------------------------- |
 | Payment Page | POST | `/payments/checkout` | Create Stripe/SSLCommerz payment session |
 | Payment Success | GET | `/payments/success` | Verify successful payment |
 | Payment Cancel | GET | `/payments/cancel` | Handle cancelled payment |
@@ -45,6 +48,7 @@ This document describes how the RentNest frontend integrates with the backend AP
 
 ## Tenant
 
+| ------------------ | ----------------------------------- |
 | Dashboard Overview | `GET /tenant/dashboard` |
 | My Rentals | `GET /rentals` |
 | Payment History | `GET /payments` |
@@ -63,6 +67,7 @@ This document describes how the RentNest frontend integrates with the backend AP
 
 ## Admin
 
+| ------------------ | ----------------------------------- |
 | Dashboard Overview | `GET /admin/dashboard` |
 | All Users | `GET /admin/users` |
 | Get Properties | `GET /admin/properties` |
