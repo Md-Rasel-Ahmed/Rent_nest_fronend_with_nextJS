@@ -36,6 +36,8 @@ interface PageProps {
   landlordId: string;
   categoryId: string;
   createdAt: string;
+  amenities?: string[];
+  hostName?: string;
 }
  interface SinglePropertyResponse {
   success: boolean;
@@ -72,8 +74,8 @@ console.log(property);
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
         <div>
           <div className="flex items-center gap-2 mb-2">
-            <Badge variant="secondary">{property.data.imgUrl || "Category"}</Badge>
-            <Badge className={property.data.isAvailable? "bg-green-600" : "bg-amber-600"}>
+            <Badge variant="secondary">{property.data?.imgUrl || "Category"}</Badge>
+            <Badge className={property.data?.isAvailable? "bg-green-600" : "bg-amber-600"}>
               {property.data.isAvailable?"ACTIVE":"NOT ACTIVE"}
             </Badge>
           </div>
@@ -163,7 +165,7 @@ console.log(property);
           <div>
             <h2 className="text-2xl font-bold mb-4">Amenities</h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-              {(property.amenities || ["Wifi", "Parking", "Air Conditioning", "Balcony", "Security", "Gym"]).map((amenity: string, idx: number) => (
+              {(property.data?.amenities || ["Wifi", "Parking", "Air Conditioning", "Balcony", "Security", "Gym"]).map((amenity: string, idx: number) => (
                 <div key={idx} className="flex items-center gap-2">
                   <CheckCircle2 className="h-4 w-4 text-green-500" />
                   <span className="text-sm">{amenity}</span>
@@ -184,14 +186,14 @@ console.log(property);
             </div>
 
             <hr />
-
+ 
             {/* Host Info */}
             <div className="flex items-center gap-4">
               <div className="h-12 w-12 rounded-full bg-secondary flex items-center justify-center">
                 <User className="h-6 w-6 text-muted-foreground" />
               </div>
               <div>
-                <p className="font-semibold">{property.hostName || "Property Manager"}</p>
+                <p className="font-semibold">{property.data?.hostName || "Property Manager"}</p>
                 <p className="text-xs text-muted-foreground">Verified Agent</p>
               </div>
             </div>

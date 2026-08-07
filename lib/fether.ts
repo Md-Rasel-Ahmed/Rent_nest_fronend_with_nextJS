@@ -7,7 +7,7 @@ type FetchOptions = RequestInit & {
 export async function fetcher<T>(
   endpoint: string,
   options: FetchOptions = {}
-): Promise<T> {
+): Promise<T | { success: boolean; message: string }> {
   const { token, headers, ...rest } = options;
 
   const reqHeaders: Record<string, string> = {
@@ -30,8 +30,11 @@ export async function fetcher<T>(
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.message || "Something went wrong");
+    return {
+      success: false,
+      message: data?.message || response.statusText || "Request failed",
+    };
   }
 
-  return data || [];
+  return (data as T) || ([] as unknown as T);
 }

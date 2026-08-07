@@ -164,21 +164,21 @@ export default async function AdminDashboardPage() {
             <div className="space-y-4">
               {bookings.data?.slice(0,3).map((booking) => (
                 <div
-                  key={booking.id}
+                  key={booking?.id}
                   className="flex items-center justify-between rounded-lg border p-4"
                 >
                   <div>
                     <h3 className="font-medium">
-                      {booking.tenant.name}
+                      {booking.tenant?.name}
                     </h3>
 
                     <p className="text-sm text-muted-foreground">
-                      {booking.property.title}
+                      {booking.property?.title}
                     </p>
                   </div>
 
                   <span className="rounded-full bg-primary/10 px-3 py-1 text-sm text-primary">
-                    {booking.status}
+                    {booking?.status}
                   </span>
                 </div>
               ))}
@@ -195,10 +195,10 @@ export default async function AdminDashboardPage() {
             <div className="space-y-4">
               {users.data?.map((user) => (
                 <div
-                  key={user.id}
+                  key={user?.id}
                   className="rounded-lg border p-4"
                 >
-                  {user.name}
+                  {user?.name}
                 </div>
               ))}
             </div>
@@ -217,11 +217,11 @@ export default async function AdminDashboardPage() {
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             {properties.data?.slice(0,3).map((property) => (
               <div
-                key={property.id}
+                key={property?.id}
                 className="rounded-lg border p-5"
               >
                 <h3 className="font-medium">
-                  {property.title}
+                  {property?.title}
                 </h3>
 
                 <p className="mt-2 text-sm text-muted-foreground">

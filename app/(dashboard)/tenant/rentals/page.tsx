@@ -83,13 +83,13 @@ export default async function TenantRentalsPage() {
           <tbody>
             {rentals.data?.map((rental) => (
               <tr
-                key={rental.id}
+                key={rental?.id}
                 className="border-t"
               >
                 <td className="px-6 py-5 font-medium">
                   <div className="flex items-center gap-3">
                     {/* <Home className="h-5 w-5 text-primary" /> */}
-                    {rental.property.title}
+                    {rental.property?.title}
                   </div>
                 </td>
 
@@ -98,34 +98,34 @@ export default async function TenantRentalsPage() {
                 </td>
 
                 <td className="px-6 py-5">
-                  {rental.property.address}
+                  {rental.property?.address}
                 </td>
 
                 <td className="px-6 py-5">
-                  {rental.property.rent}
+                  {rental.property?.rent}
                 </td>
 
                 <td className="px-6 py-5">
-                  {rental.moveInDate}
+                  {rental?.moveInDate}
                 </td>
 
                 <td className="px-6 py-5">
-                  {rental.moveInDate+10}
+                  {rental?.moveInDate+10}
                 </td>
 
                 <td className="px-6 py-5">
-                  {rental.status==="APPROVED"&& <PaymentButton token={token??""}bookingId={rental.id}amount={rental.property.rent}></PaymentButton>}
-                  {rental.status==="COMPLETED"&& <Link href={"/tenatn/rentals/make-review"}><Badge variant={"destructive"}>Make Review</Badge></Link>}
+                  {rental?.status==="APPROVED"&& <PaymentButton token={token??""}bookingId={rental.id}amount={rental.property?.rent}></PaymentButton>}
+                  {rental?.status==="COMPLETED"&& <Link href={"/tenatn/rentals/make-review"}><Badge variant={"destructive"}>Make Review</Badge></Link>}
                   <Badge
                     variant={
-                      rental.status === "ACTIVE"
+                      rental?.status === "ACTIVE"
                         ? "default"
                         : rental.status === "PENDING"
                         ? "secondary"
                         : "outline"
                     }
                   >
-                    {rental.status}
+                    {rental?.status}
                   </Badge>
                 </td>
 

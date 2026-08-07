@@ -8,7 +8,7 @@ import { tokenVerify } from "@/utiles/tokenVerify";
 
 export async function loginAction(data: { email: string; password: string }) {
   try {
-    const res = await fetch(`http://localhost:5000/api/auth/login`, {
+    const res = await fetch(`https://assinemen4.vercel.app/api/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -62,7 +62,7 @@ export async function loginAction(data: { email: string; password: string }) {
 export async function singupAction(data: { email: string; password: string,name:string,phone:string,role:string}) {
   console.log(data,"from singup form");
   try {
-    const res = await fetch(`http://localhost:5000/api/auth/register`, {
+    const res = await fetch(`https://assinemen4.vercel.app/api/auth/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

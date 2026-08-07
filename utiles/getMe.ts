@@ -12,7 +12,7 @@ export async function getMe(): Promise<IGetMeResponse> {
     }
   }
 
-  const res = await fetch(`http://localhost:5000/api/auth/me`, {
+  const res = await fetch(`https://assinemen4.vercel.app/api/auth/me`, {
      headers:{
      Cookie:`accessToken=${token}`
          },

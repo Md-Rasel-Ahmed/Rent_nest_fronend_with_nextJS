@@ -98,15 +98,15 @@ export default async function RentalsPage() {
           <tbody>
             {bookings.data?.map((rental) => (
               <tr
-                key={rental.id}
+                key={rental?.id}
                 className="border-t"
               >
                 <td className="px-6 py-5 font-medium">
-                  {rental.property.title}
+                  {rental.property?.title}
                 </td>
 
                 <td className="px-6 py-5">
-                  {rental.tenant.name}
+                  {rental.tenant?.name}
                 </td>
 
                 <td className="px-6 py-5">
@@ -115,7 +115,7 @@ export default async function RentalsPage() {
                 </td>
 
                 <td className="px-6 py-5">
-                  {rental.property.rent}
+                  {rental.property?.rent}
                 </td>
 
                 <td className="px-6 py-5">
@@ -134,14 +134,14 @@ export default async function RentalsPage() {
                 <td className="px-6 py-5">
                   <Badge
                     variant={
-                      rental.status === "ACTIVE"
+                      rental?.status === "ACTIVE"
                         ? "default"
-                        : rental.status === "Pending"
+                        : rental?.status === "Pending"
                         ? "secondary"
                         : "outline"
                     }
                   >
-                    {rental.status}
+                    {rental?.status}
                   </Badge>
                 </td>
 
