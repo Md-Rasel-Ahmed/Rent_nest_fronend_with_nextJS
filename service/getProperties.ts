@@ -5,3 +5,8 @@ export const getProperties = () => {
     method: "GET",
   });
 };
+export const getSingleProperty = ({id}:{id:string}) => {
+  return fetcher(`/landlord/properties/${id}`, {
+    method: "GET",
+  });
+};

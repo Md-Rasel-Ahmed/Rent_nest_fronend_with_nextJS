@@ -2,7 +2,7 @@ export interface PropertyType {
   [x: string]: string | number | Date;
   id: string;
   title: string;
-  image: string;
+  imgUrl: string;
   address: string;
   location: string;
   type: string;

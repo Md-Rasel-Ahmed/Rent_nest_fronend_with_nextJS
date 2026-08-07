@@ -20,10 +20,9 @@ export default function PropertyCard({ property }: Props) {
   return (
     <div className="group overflow-hidden rounded-2xl border bg-background transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
       {/* Image */}
-
       <div className="relative h-64 overflow-hidden">
         <Image
-          src={property.image}
+          src={property.imgUrl||`/images/rental_house.jpg`}
           alt={property.title}
           fill
           className="object-cover transition duration-500 group-hover:scale-110"

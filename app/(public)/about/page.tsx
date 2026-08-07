@@ -61,7 +61,7 @@ export default function AboutPage() {
 
             <div className="mt-10 flex gap-4">
               <Button  size="lg">
-                <Link href="/properties">
+                <Link className="flex gap-1" href="/properties">
                   Browse Properties
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
@@ -81,7 +81,7 @@ export default function AboutPage() {
 
           <div className="relative h-[500px] overflow-hidden rounded-3xl">
             <Image
-              src="/images/about/about.jpg"
+              src="/images/rental_house.jpg"
               alt="About RentNest"
               fill
               priority

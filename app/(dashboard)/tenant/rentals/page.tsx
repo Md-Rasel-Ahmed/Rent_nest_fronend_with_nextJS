@@ -2,41 +2,30 @@ import { Eye, Home } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { cookies } from "next/headers";
+import { getRentals } from "@/service/rental.service";
+import Link from "next/link";
+import PaymentButton from "@/components/PaymentProcess";
 
-const rentals = [
-  {
-    id: 1,
-    property: "Luxury Apartment",
-    landlord: "John Doe",
-    location: "Dhaka",
-    rent: "$550 / month",
-    startDate: "01 Jan 2026",
-    endDate: "31 Dec 2026",
-    status: "Active",
-  },
-  {
-    id: 2,
-    property: "Studio Flat",
-    landlord: "Sarah Khan",
-    location: "Khulna",
-    rent: "$300 / month",
-    startDate: "01 Mar 2025",
-    endDate: "31 Dec 2025",
-    status: "Completed",
-  },
-  {
-    id: 3,
-    property: "Modern Villa",
-    landlord: "David Lee",
-    location: "Sylhet",
-    rent: "$850 / month",
-    startDate: "15 Feb 2026",
-    endDate: "-",
-    status: "Pending",
-  },
-];
 
-export default function TenantRentalsPage() {
+type Rental={
+  id:string,
+  moveInDate:string,
+  status:string,
+  property:{
+    title:string,
+    rent:string,
+    address:string
+  }
+}
+type Property={
+  data?:Rental[]
+
+}
+export default async function TenantRentalsPage() {
+  const cookiStore = await cookies();
+      const token = cookiStore.get("accessToken")?.value;
+      const rentals=(await getRentals(token??""))as Property
   return (
     <div className="space-y-6">
       {/* Heading */}
@@ -92,44 +81,46 @@ export default function TenantRentalsPage() {
           </thead>
 
           <tbody>
-            {rentals.map((rental) => (
+            {rentals.data?.map((rental) => (
               <tr
                 key={rental.id}
                 className="border-t"
               >
                 <td className="px-6 py-5 font-medium">
                   <div className="flex items-center gap-3">
-                    <Home className="h-5 w-5 text-primary" />
-                    {rental.property}
+                    {/* <Home className="h-5 w-5 text-primary" /> */}
+                    {rental.property.title}
                   </div>
                 </td>
 
                 <td className="px-6 py-5">
-                  {rental.landlord}
+                  Jhon
                 </td>
 
                 <td className="px-6 py-5">
-                  {rental.location}
+                  {rental.property.address}
                 </td>
 
                 <td className="px-6 py-5">
-                  {rental.rent}
+                  {rental.property.rent}
                 </td>
 
                 <td className="px-6 py-5">
-                  {rental.startDate}
+                  {rental.moveInDate}
                 </td>
 
                 <td className="px-6 py-5">
-                  {rental.endDate}
+                  {rental.moveInDate+10}
                 </td>
 
                 <td className="px-6 py-5">
+                  {rental.status==="APPROVED"&& <PaymentButton token={token??""}bookingId={rental.id}amount={rental.property.rent}></PaymentButton>}
+                  {rental.status==="COMPLETED"&& <Link href={"/tenatn/rentals/make-review"}><Badge variant={"destructive"}>Make Review</Badge></Link>}
                   <Badge
                     variant={
-                      rental.status === "Active"
+                      rental.status === "ACTIVE"
                         ? "default"
-                        : rental.status === "Pending"
+                        : rental.status === "PENDING"
                         ? "secondary"
                         : "outline"
                     }

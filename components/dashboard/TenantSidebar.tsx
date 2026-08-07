@@ -39,11 +39,11 @@ const menus = [
     href: "/tenant/payments",
     icon: CreditCard,
   },
-  // {
-  //   title: "Rental History",
-  //   href: "/tenant/history",
-  //   icon: History,
-  // },
+  {
+    title: "Rental History",
+    href: "/tenant/rentals",
+    icon: History,
+  },
   // {
   //   title: "My Reviews",
   //   href: "/dashboard/tenant/reviews",

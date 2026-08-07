@@ -27,7 +27,7 @@ export default function AddPropertyModal({ token }: { token: string }) {
     title: "",
     description: "",
     address: "",
-    city: "",
+    ImgUrl: "",
     rent: "",
     bedrooms: "",
     bathrooms: "",
@@ -73,7 +73,7 @@ export default function AddPropertyModal({ token }: { token: string }) {
         title: "",
         description: "",
         address: "",
-        city: "",
+        imgUrl: "",
         rent: "",
         bedrooms: "",
         bathrooms: "",
@@ -150,13 +150,13 @@ export default function AddPropertyModal({ token }: { token: string }) {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="city">City</Label>
+              <Label htmlFor="imgUrl">Img Url</Label>
               <Input
-                id="city"
-                name="city"
-                value={formData.city}
+                id="imgUrl"
+                name="imgUrl"
+                value={formData.ImgUrl}
                 onChange={handleChange}
-                placeholder="Dhaka"
+                placeholder="https://placeholedImg.com"
                 required
               />
             </div>

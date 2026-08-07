@@ -41,7 +41,7 @@ const paymentHistory = [
 export default async function TenantPaymentsPage() {
   const cookiStore = await cookies();
       const token = cookiStore.get("accessToken")?.value;
-      const payments = (await getPaymentsHistory(token ?? "")) as { data?: { status?: string; amount?: number;id:string }[] };
+      const payments = (await getPaymentsHistory(token ?? "")) as { data?: { status?: string; amount?: number;id:string,provider:string,paidAt:string }[] };
       
   return (
     <div className="space-y-8">
@@ -59,7 +59,7 @@ export default async function TenantPaymentsPage() {
 
       {/* Current Payment */}
 
-      <Card>
+      {/* <Card>
         <CardContent className="flex flex-col gap-6 p-6 lg:flex-row lg:items-center lg:justify-between">
           <div className="space-y-2">
             <h2 className="text-xl font-semibold">
@@ -94,7 +94,7 @@ export default async function TenantPaymentsPage() {
             </Button>
           </div>
         </CardContent>
-      </Card>
+      </Card> */}
 
       {/* Payment History */}
 
@@ -109,7 +109,7 @@ export default async function TenantPaymentsPage() {
               <thead className="bg-muted">
                 <tr>
                   <th className="px-6 py-4 text-left">
-                    Month
+                    Date
                   </th>
 
                   <th className="px-6 py-4 text-left">
@@ -137,7 +137,7 @@ export default async function TenantPaymentsPage() {
                     className="border-t"
                   >
                     <td className="px-6 py-5">
-                      {payment.month}
+                      {payment.paidAt}
                     </td>
 
                     <td className="px-6 py-5 font-medium">
@@ -145,7 +145,7 @@ export default async function TenantPaymentsPage() {
                     </td>
 
                     <td className="px-6 py-5">
-                      {payment.method}
+                      {payment.provider}
                     </td>
 
                     <td className="px-6 py-5">

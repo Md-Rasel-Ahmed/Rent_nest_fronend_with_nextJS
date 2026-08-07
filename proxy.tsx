@@ -20,7 +20,7 @@ export async function proxy(request: NextRequest) {
             return NextResponse.redirect(new URL('/landlord/dashboard', request.url))
         }
      }
-     const isPublic=PUBLIC_ROUTES.some(route=>route===pathname||pathname.startsWith(route + "/"))
+     const isPublic=PUBLIC_ROUTES.some(route=>route===pathname)
      console.log(isPublic)
      if(!accessToken && !isPublic){
         return NextResponse.redirect(new URL('/login', request.url))
