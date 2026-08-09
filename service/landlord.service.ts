@@ -1,21 +1,21 @@
 import { fetcher } from "@/lib/fether";
+import { serverFetcher } from "@/lib/serverFether";
 
-export const getLandlordProperties = (token: string) => {
-  return fetcher("/landlord/properties/landlord", {
+export const getLandlordProperties = () => {
+  return serverFetcher("/landlord/properties/landlord", {
     method: "GET",
-    token,
+   
   });
 };
-export const getRentalRequests = (token: string) => {
-  return fetcher("/landlord/properties/requests", {
+export const getRentalRequests = () => {
+  return serverFetcher("/landlord/properties/requests", {
     method: "GET",
-    token,
   });
 };
 
-export const deleteProperty=(token:string,id:string)=>{
+export const deleteProperty=(id:string)=>{
      return fetcher(`/landlord/properties/${id}`, {
      method: "DELETE",
-     token,
+    
   })
 }

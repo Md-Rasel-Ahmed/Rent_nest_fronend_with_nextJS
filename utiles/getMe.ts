@@ -6,10 +6,10 @@ export async function getMe(): Promise<IGetMeResponse> {
 
   if (!token) {
     return {
-      success:false,
-      message:"User not logged in",
-      data:null
-    }
+      success: false,
+      message: "User not logged in",
+      data: undefined as unknown as IGetMeResponse["data"],
+    };
   }
 
   const res = await fetch(`https://assinemen4.vercel.app/api/auth/me`, {

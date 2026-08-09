@@ -1,6 +1,7 @@
 export interface PropertyType {
-  [x: string]: string | number | Date;
+  [x: string]: string | number | Date | boolean;
   id: string;
+  city:string,
   title: string;
   imgUrl: string;
   address: string;
@@ -9,6 +10,8 @@ export interface PropertyType {
   bedrooms: number;
   bathrooms: number;
   area: number;
+  createdAt:string,
+  isAvailable:boolean,
   rent: number;
 }
 export interface Property{

@@ -1,21 +1,22 @@
 import { fetcher } from "@/lib/fether";
+import { serverFetcher } from "@/lib/serverFether";
 
 export const getAllUsers = (token: string) => {
-  return fetcher("/admin/users", {
+  return serverFetcher("/admin/users", {
     method: "GET",
-    token,
+    
   });
 };
 export const getAllProperties = (token: string) => {
-  return fetcher("/admin/properties", {
+  return serverFetcher("/admin/properties", {
     method: "GET",
-    token,
+   
   });
 };
 export const getAllBookings = (token: string) => {
-  return fetcher("/admin/rentals", {
+  return serverFetcher("/admin/rentals", {
     method: "GET",
-    token,
+    
   });
 };
 export const AllCategories = () => {

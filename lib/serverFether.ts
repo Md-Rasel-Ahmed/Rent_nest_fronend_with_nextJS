@@ -1,26 +1,32 @@
+import { cookies } from "next/headers";
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL
   ? process.env.NEXT_PUBLIC_API_URL.replace(/\/$/, "")
   : "";
-
-export async function fetcher<T>(
+export async function serverFetcher<T>(
   endpoint: string,
   options: RequestInit = {}
 ) {
+  const cookieStore = await cookies();
+
+  const accessToken =
+    cookieStore.get("accessToken")?.value;
+
   const response = await fetch(
     `${BASE_URL}${endpoint}`,
     {
       ...options,
-      credentials: "include",
       headers: {
         "Content-Type": "application/json",
+        Cookie: `accessToken=${accessToken}`,
         ...options.headers,
       },
+      cache: "no-store",
     }
   );
 
   const data = await response.json();
+
   if (!response.ok) {
-    // console.log(data);
     return {
       success: false,
       message: data?.message || "Something went wrong",

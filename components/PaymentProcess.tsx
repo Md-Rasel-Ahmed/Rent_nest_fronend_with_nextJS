@@ -29,7 +29,7 @@ export default function PaymentButton({
         body: JSON.stringify({ rentalRequestId:bookingId,amount:amountInt }),
       });
 
-      const checkoutUrl = res?.data?.paymentUrl || res?.url;
+      const checkoutUrl = (res as any)?.data?.paymentUrl || (res as any)?.url;
 
       if (checkoutUrl) {
         window.location.href = checkoutUrl;

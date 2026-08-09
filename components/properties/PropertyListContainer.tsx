@@ -24,7 +24,6 @@ export default function PropertyListContainer({
       return list.sort((a, b) => Number(b.rent) - Number(a.rent));
     }
 
-    // Default: Newest (ধরে নেওয়া হচ্ছে createdAt ফিল্ড রয়েছে)
     return list.sort(
       (a, b) =>
         new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()

@@ -5,11 +5,13 @@ import {
   Star,
   ArrowUpRight,
 } from "lucide-react";
+import  jwt, { JwtPayload }  from 'jsonwebtoken';
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cookies } from "next/headers";
 import { getLandlordProperties, getRentalRequests } from "@/service/landlord.service";
+import { getProperties } from "@/service/getProperties";
 
 
 
@@ -40,7 +42,8 @@ type LandlordProperty = {
   rent: string;
   isAvailable:boolean,
   address:string,
-  city:string
+  city:string,
+  landlordId:string
 };
 
 type LandlordPropertiesResponse = {
@@ -67,12 +70,14 @@ type LandlordPropertiesResponseR = {
 export default async function LandlordDashboardPage() {
   const cookiStore = await cookies();
     const token = cookiStore.get("accessToken")?.value;
-    const properties = (await getLandlordProperties(token ?? "")) as LandlordPropertiesResponse;
-  const requestedProperties = (await getRentalRequests(token ?? "")) as LandlordPropertiesResponseR;
+    const properties = (await getProperties()) as LandlordPropertiesResponse;
+      const decoded=jwt.decode(token??"") as JwtPayload
+        const landLordProperty=properties.data?.filter(property=>property.landlordId===decoded.id)
+  const requestedProperties = (await getRentalRequests()) as LandlordPropertiesResponseR;
     const stats = [
   {
     title: "Total Properties",
-    value: properties.data?.length,
+    value: landLordProperty?.length,
     icon: Building2,
   },
   {

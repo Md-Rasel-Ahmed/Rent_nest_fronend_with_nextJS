@@ -22,7 +22,7 @@ export default function PropertyCard({ property }: Props) {
       {/* Image */}
       <div className="relative h-64 overflow-hidden">
         <Image
-          src={property.imgUrl||`/images/rental_house.jpg`}
+          src={property.city||`/images/rental_house.jpg`}
           alt={property.title}
           fill
           className="object-cover transition duration-500 group-hover:scale-110"
@@ -32,7 +32,7 @@ export default function PropertyCard({ property }: Props) {
           <Heart className="h-5 w-5" />
         </button>
 
-        {property.verified && (
+        {property.isAvailable && (
           <div className="absolute left-4 top-4 flex items-center gap-1 rounded-full bg-primary px-3 py-1 text-xs font-medium text-white">
             <BadgeCheck className="h-4 w-4" />
             Verified
@@ -45,7 +45,7 @@ export default function PropertyCard({ property }: Props) {
       <div className="space-y-4 p-6">
         <div>
           <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-            {property.type}
+            Special
           </span>
 
           <h2 className="mt-3 text-2xl font-semibold">

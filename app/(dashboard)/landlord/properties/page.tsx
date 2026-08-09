@@ -5,6 +5,8 @@ import {
 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
+import  jwt, { JwtPayload }  from 'jsonwebtoken';
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { getLandlordProperties } from "@/service/landlord.service";
@@ -12,6 +14,7 @@ import { cookies } from "next/headers";
 import AddPropertyModal from "@/components/dashboard/AddPropertyModal";
 import DeleteProperty from "@/components/DeleteProperty";
 import UpdatePropertyModal from "@/components/properties/UpdatePropertyModal";
+import { getProperties } from "@/service/getProperties";
 
 type LandlordProperty = {
   id: string;
@@ -20,18 +23,28 @@ type LandlordProperty = {
   rent: string;
   isAvailable:boolean,
   address:string,
-  city:string
+  city:string,
+  landlordId:string
+};
+type Property = {
+  id: string;
+  title: string;
+  location: string;
+  rent: string;
+  isAvailable:boolean,
+  address:string,
+  city:string,
+  landlordId:string
 };
 
 type LandlordPropertiesResponse = {
-  data?: LandlordProperty[];
+  data?: Property[];
 };
 
 export default async function MyPropertiesPage() {
   const cookiStore = await cookies();
   const token = cookiStore.get("accessToken")?.value;
-  const properties = (await getLandlordProperties(token ?? "")) as LandlordPropertiesResponse;
-  
+  const properties = (await getLandlordProperties()) as LandlordPropertiesResponse;
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -100,7 +113,7 @@ export default async function MyPropertiesPage() {
                 </td>
 
                 <td className="px-6 py-5">
-                  {property.address +", " + property.city}
+                  {property.address}
                 </td>
 
                 <td className="px-6 py-5">

@@ -27,7 +27,7 @@ export default function AddPropertyModal({ token }: { token: string }) {
     title: "",
     description: "",
     address: "",
-    ImgUrl: "",
+    imgUrl: "",
     rent: "",
     bedrooms: "",
     bathrooms: "",
@@ -64,10 +64,11 @@ export default function AddPropertyModal({ token }: { token: string }) {
     try {
       const res = await fetcher("/landlord/properties", {
         method: "POST",
-        token: token,
         body: JSON.stringify(payload),
       });
-
+        if(!res || typeof res !== 'object' || !('success' in res) || !res.success){
+             return toast.error(typeof res === 'object' && res && 'message' in res ? String(res.message) : "An error occurred")
+        }
       toast.success("Property Created Successfully")
       setFormData({
         title: "",
@@ -154,7 +155,7 @@ export default function AddPropertyModal({ token }: { token: string }) {
               <Input
                 id="imgUrl"
                 name="imgUrl"
-                value={formData.ImgUrl}
+                value={formData.imgUrl}
                 onChange={handleChange}
                 placeholder="https://placeholedImg.com"
                 required

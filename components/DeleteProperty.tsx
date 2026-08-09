@@ -14,6 +14,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { fetcher } from "@/lib/fether";
+import { toast } from "sonner";
 
 interface DeletePropertyButtonProps {
   id: string;
@@ -33,12 +34,15 @@ export default function DeletePropertyButton({
   const handleDelete = async () => {
     setLoading(true);
     try {
-      await fetcher(`/landlord/properties/${id}`, {
+     const res= await fetcher(`/landlord/properties/${id}`, {
         method: "DELETE",
-        token: token,
+       
       });
-
+  if(!res || typeof res !== 'object' || !('success' in res) || !res.success){
+             return toast.error(typeof res === 'object' && res && 'message' in res ? String(res.message) : "An error occurred")
+        }
       setOpen(false);
+      toast.success("Property delete successfull")
       router.refresh();
     } catch (error) {
       console.error("Delete failed:", error);

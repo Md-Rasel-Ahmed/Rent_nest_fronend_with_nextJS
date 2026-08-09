@@ -32,8 +32,8 @@ type LandlordPropertiesResponse = {
 export default async function RentalRequestsPage() {
   const cookiStore = await cookies();
     const token = cookiStore.get("accessToken")?.value;
-    const requestedProperties = (await getRentalRequests(token ?? "")) as LandlordPropertiesResponse;
-    console.log(requestedProperties.data)
+    const requestedProperties = (await getRentalRequests()) as LandlordPropertiesResponse;
+    console.log(requestedProperties)
   return (
     <div className="space-y-6">
       {/* Header */}

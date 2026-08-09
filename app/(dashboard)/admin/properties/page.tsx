@@ -68,7 +68,7 @@ export default async function AdminPropertiesPage() {
               </th>
 
               <th className="px-6 py-4 text-left">
-                City
+                Adress
               </th>
 
               <th className="px-6 py-4 text-left">
@@ -96,11 +96,12 @@ export default async function AdminPropertiesPage() {
                 </td>
 
                 <td className="px-6 py-5">
-                  {property.city}
+                  {/* {property.} */}
+                  Jhon
                 </td>
 
                 <td className="px-6 py-5">
-                  {property.city}
+                  {property.address}
                 </td>
 
                 <td className="px-6 py-5">

@@ -1,14 +1,15 @@
 import { fetcher } from "@/lib/fether";
+import { serverFetcher } from "@/lib/serverFether";
 
 export const getRentals = (token: string) => {
-  return fetcher("/rentals", {
+  return serverFetcher("/rentals", {
     method: "GET",
-    token,
+    
   });
 };
 export const getPaymentsHistory = (token: string) => {
-  return fetcher("/payments", {
+  return serverFetcher("/payments", {
     method: "GET",
-    token,
+    
   });
 };

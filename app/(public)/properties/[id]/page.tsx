@@ -27,6 +27,7 @@ interface PageProps {
   title: string;
   description: string;
   address: string;
+  city:string,
   imgUrl: string;
   rent: number;
   bedrooms: number;
@@ -74,7 +75,7 @@ console.log(property);
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
         <div>
           <div className="flex items-center gap-2 mb-2">
-            <Badge variant="secondary">{property.data?.imgUrl || "Category"}</Badge>
+            {/* <Badge variant="secondary">{property.data?. || "Category"}</Badge> */}
             <Badge className={property.data?.isAvailable? "bg-green-600" : "bg-amber-600"}>
               {property.data.isAvailable?"ACTIVE":"NOT ACTIVE"}
             </Badge>
@@ -96,8 +97,8 @@ console.log(property);
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
         <div className="md:col-span-2 relative h-[350px] md:h-[450px] rounded-xl overflow-hidden">
           <Image
-            src={property.data.imgUrl ||  "/images/rental_house.jpg"}
-            alt={property.data.title}
+            src={property.data?.city ||  "/images/rental_house.jpg"}
+            alt={property.data?.title}
             fill
             className="object-cover"
             priority
@@ -106,7 +107,7 @@ console.log(property);
         <div className="hidden md:flex flex-col gap-4">
           <div className="relative h-[217px] rounded-xl overflow-hidden">
             <Image
-              src={property.data.imgUrl || "/images/rental_house.jpg"}
+              src={property.data?.city || "/images/rental_house.jpg"}
               alt="Property view"
               fill
               className="object-cover"
@@ -114,7 +115,7 @@ console.log(property);
           </div>
           <div className="relative h-[217px] rounded-xl overflow-hidden">
             <Image
-              src={property.data.imgUrl ||"/images/rental_house.jpg"}
+              src={property.data?.city ||"/images/rental_house.jpg"}
               alt="Property view"
               fill
               className="object-cover"

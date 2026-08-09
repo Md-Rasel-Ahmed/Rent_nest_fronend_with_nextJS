@@ -41,11 +41,12 @@ export default function UpdatePropertyModal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-
+   console.log(id,
+  property,
+  token)
     try {
       await fetcher(`/landlord/properties/${id}`, {
         method: "PUT",
-        token: token,
         body: JSON.stringify({
           title: propertyName,
           address: propertyLocation,
@@ -58,6 +59,7 @@ export default function UpdatePropertyModal({
       router.refresh();
     } catch (error) {
       console.error(error);
+      toast.error((error as Error).message || "Failed to update property");
     } finally {
       setLoading(false);
     }
@@ -71,7 +73,7 @@ export default function UpdatePropertyModal({
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-[400px]">
+      <DialogContent className="sm:max-w-100">
         <DialogHeader>
           <DialogTitle>Update Property</DialogTitle>
         </DialogHeader>
