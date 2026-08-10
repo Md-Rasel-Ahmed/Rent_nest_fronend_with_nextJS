@@ -1,12 +1,12 @@
-import { fetcher } from "@/lib/fether";
+import { serverFetcher } from "@/lib/serverFether";
 
 export const getProperties = () => {
-  return fetcher("/landlord/properties", {
+  return serverFetcher("/landlord/properties", {
     method: "GET",
   });
 };
 export const getSingleProperty = ({id}:{id:string}) => {
-  return fetcher(`/landlord/properties/${id}`, {
+  return serverFetcher(`/landlord/properties/${id}`, {
     method: "GET",
   });
 };

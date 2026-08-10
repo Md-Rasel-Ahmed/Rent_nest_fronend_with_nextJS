@@ -12,7 +12,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { fetcher } from "@/lib/fether";
 import { toast } from "sonner";
 
 interface UpdatePropertyModalProps {
@@ -41,19 +40,25 @@ export default function UpdatePropertyModal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-   console.log(id,
-  property,
-  token)
+   
     try {
-      await fetcher(`/landlord/properties/${id}`, {
+      const res= await fetch(`${process.env.NEXT_PUBLIC_API_URL}/landlord/properties/${id}`,{
         method: "PUT",
+        headers:{
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify({
           title: propertyName,
           address: propertyLocation,
           rent: Number(propertyRent),
         }),
       });
-
+ const result=await res.json()
+ console.log(result);
+    if (!res.ok) {
+      throw new Error(result.message || 'Something went wrong');
+    }
       setOpen(false);
       toast.success("Property update successdull!")
       router.refresh();

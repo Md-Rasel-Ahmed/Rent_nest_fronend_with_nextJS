@@ -13,7 +13,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { fetcher } from "@/lib/fether";
 import { toast } from "sonner";
 
 interface IdeleteUser {
@@ -34,11 +33,17 @@ export default function DeleteUser({
   const handleDelete = async () => {
     setLoading(true);
     try {
-      await fetcher(`/admin/users/${id}`, {
+     const res= await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/users/${id}`, {
+        headers:{
+          'Authorization': `Bearer ${token}`
+        },
         method: "DELETE",
-        token: token,
       });
-
+const result=await res.json()
+    if (!res.ok) {
+      throw new Error(result.message || 'Something went wrong');
+    }
+    setLoading(false)
       setOpen(false);
       toast.success("User delete successfull")
       router.refresh();

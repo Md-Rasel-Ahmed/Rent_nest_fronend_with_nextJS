@@ -15,7 +15,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { fetcher } from "@/lib/fether";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -61,16 +60,24 @@ export default function AddPropertyModal({ token }: { token: string }) {
       bathrooms: Number(formData.bathrooms),
     };
 
-    try {
-      const res = await fetcher("/landlord/properties", {
-        method: "POST",
-        body: JSON.stringify(payload),
-      });
-        if(!res || typeof res !== 'object' || !('success' in res) || !res.success){
-             return toast.error(typeof res === 'object' && res && 'message' in res ? String(res.message) : "An error occurred")
-        }
-      toast.success("Property Created Successfully")
-      setFormData({
+
+   try {
+     const res=await fetch(`${process.env.NEXT_PUBLIC_API_URL}/landlord/properties`,{
+      method:"POST",
+      headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+  },
+  credentials:"include",
+  body: JSON.stringify(payload),
+    })
+    const result=await res.json()
+    if (!res.ok) {
+      throw new Error(result.message || 'Something went wrong');
+    }
+    setLoading(false)
+    toast.success("Property Created Successfully")
+     setFormData({
         title: "",
         description: "",
         address: "",
@@ -84,11 +91,41 @@ export default function AddPropertyModal({ token }: { token: string }) {
 
       setOpen(false);
       router.refresh(); 
-    } catch (error) {
-      console.error("API Error:", error);
-    } finally {
-      setLoading(false);
-    }
+    return result;
+   } catch (error) {
+    console.error('API Error:', error);
+    throw error;
+   }finally{
+    setLoading(false);
+   }
+    // try {
+    //   const res = await fetcher("/landlord/properties", {
+    //     method: "POST",
+    //     body: JSON.stringify(payload),
+    //   });
+    //     if(!res || typeof res !== 'object' || !('success' in res) || !res.success){
+    //          return toast.error(typeof res === 'object' && res && 'message' in res ? String(res.message) : "An error occurred")
+    //     }
+    //   toast.success("Property Created Successfully")
+    //   setFormData({
+    //     title: "",
+    //     description: "",
+    //     address: "",
+    //     imgUrl: "",
+    //     rent: "",
+    //     bedrooms: "",
+    //     bathrooms: "",
+    //     area: "",
+    //     isAvailable: true,
+    //   });
+
+    //   setOpen(false);
+    //   router.refresh(); 
+    // } catch (error) {
+    //   console.error("API Error:", error);
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   return (

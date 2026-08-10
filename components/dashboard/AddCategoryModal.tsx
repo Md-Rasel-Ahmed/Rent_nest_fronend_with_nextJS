@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { fetcher } from "@/lib/fether";
 
 export default function AddCategoryModal({ token }: { token: string }) {
   const router = useRouter();
@@ -30,9 +29,12 @@ export default function AddCategoryModal({ token }: { token: string }) {
     setLoading(true);
 
     try {
-      const res = await fetcher("/categories", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/categories`, {
         method: "POST",
-        token: token,
+        headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+  },
         body: JSON.stringify({ name }),
       });
 

@@ -1,5 +1,5 @@
 export const getCategories=async()=>{
-    const res=await fetch("https://assinemen4.vercel.app/api/categories",{
+    const res=await fetch("/categories",{
         cache:"no-store",
         next:{"revalidate":3600}
 

@@ -16,7 +16,6 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { fetcher } from "@/lib/fether";
 import { toast } from "sonner";
 
 interface EditCategoryModalProps {
@@ -46,9 +45,12 @@ export default function EditCategoryModal({
     setLoading(true);
 
     try {
-      const res = await fetcher(`/admin/category/${id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/category/${id}`, {
         method: "PATCH", 
-        token: token,
+         headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+  },
         body: JSON.stringify({ name }),
       });
 

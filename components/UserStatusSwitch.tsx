@@ -28,12 +28,21 @@ export default function UserStatusSwitch({
     setLoading(true);
 
     try {
-      await fetcher(`/admin/users/${userId}`, {
+      const res=await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/users/${userId}`, {
         method: "PATCH",
-        token: token,
+          headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+  },
         body: JSON.stringify({ status: newStatus }),
       });
-       toast.success("User status update successed!")
+
+      const result=await res.json()
+    if (!res.ok) {
+      throw new Error(result.message || 'Something went wrong');
+    }
+    setLoading(false)
+     toast.success("User status update successed!")
       router.refresh();
     } catch (error) {
       console.error("Status update failed:", error);

@@ -12,7 +12,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { fetcher } from "@/lib/fether";
 import { toast } from "sonner";
 
 interface RequestBookingModalProps {
@@ -36,15 +35,22 @@ const moveInDateInt = new Date(moveInDate).getTime();
     setLoading(true);
 
     try {
-      await fetcher("/rentals", {
+      const res=await fetch(`${process.env.NEXT_PUBLIC_API_URL}/rentals`, {
         method: "POST",
-        token: token,
+         headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+  },
         body: JSON.stringify({
-          moveInDate:10,
+          moveInDate:moveInDate,
           propertyId
         }),
       });
-
+const result=await res.json()
+    if (!res.ok) {
+      throw new Error(result.message || 'Something went wrong');
+    }
+    setLoading(false)
       setOpen(false);
       toast.success("Your booking is successfull")
       setMoveInDate("");

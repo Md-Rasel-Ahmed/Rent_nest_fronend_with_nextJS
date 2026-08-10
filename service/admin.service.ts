@@ -20,7 +20,7 @@ export const getAllBookings = (token: string) => {
   });
 };
 export const AllCategories = () => {
-  return fetcher("/categories", {
+  return serverFetcher("/categories", {
     method: "GET",
   });
 };

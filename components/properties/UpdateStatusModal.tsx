@@ -11,7 +11,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { fetcher } from "@/lib/fether";
 import { toast } from "sonner";
 
 interface UpdateStatusModalProps {
@@ -35,16 +34,24 @@ export default function UpdateStatusModal({
     setLoading(true);
 
     try {
-      await fetcher(`/landlord/properties/requests/${id}`, {
+     const res= await fetch(`${process.env.NEXT_PUBLIC_API_URL}/landlord/properties/requests/${id}`, {
         method: "PATCH",
-        token: token,
+           headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+  }, 
         body: JSON.stringify({ status }),
       });
-
+const result=await res.json()
+    if (!res.ok) {
+      throw new Error(result.message || 'Something went wrong');
+    }
+    setLoading(false)
       setOpen(false);
       toast.success("Update successfull")
       router.refresh();
     } catch (error) {
+      toast.error((error as Error).message)
       console.error(error);
     } finally {
       setLoading(false);
